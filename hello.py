@@ -20,7 +20,12 @@ def index():
 # users
 @app.route('/u/<user>')
 def view_profile(user):
-	return 'view profile: %s' % user
+	return render_template('ds/03-profile.html',
+		title = user,
+		description = 'Profile for user',
+		data_page = 'profile',
+		username = user
+		)
 
 
 
@@ -124,9 +129,14 @@ def about_ds():
 
 
 
+@app.errorhandler(404)
+def page_not_found(e):
+	return render_template('404.html'), 404
 
 
-
+@app.errorhandler(500)
+def internal_server_error(e):
+	return render_template('500.html'), 500
 
 
 
