@@ -1,0 +1,55 @@
+#match-facts {
+  max-width: 390px;
+  max-width: 24.375rem;
+}
+#match-facts:before, #match-facts:after {
+  content: " ";
+  display: table;
+}
+#match-facts:after {
+  clear: both;
+}
+#match-facts .t7 {
+  font-size: 14px;
+  font-size: 0.875rem;
+  margin-bottom: 13px;
+  margin-bottom: 0.8125rem;
+  font-family: "fontin_sans_rgbold";
+}
+
+.results-overview:before, .results-overview:after {
+  content: " ";
+  display: table;
+}
+.results-overview:after {
+  clear: both;
+}
+
+.team-results {
+  width: 50%;
+  max-width: 182px;
+  max-width: 11.375rem;
+  float: left;
+  list-style-type: none;
+}
+.team-results:last-child {
+  margin-left: 26px;
+  margin-left: 1.625rem;
+}
+
+.score {
+  display: block;
+  font-size: 60px;
+  font-size: 3.75rem;
+}
+
+.goals, .lineup, .substitutes {
+  list-style-type: none;
+  margin-bottom: 39px;
+  margin-bottom: 2.4375rem;
+}
+
+.lineup li, .substitutes li {
+  margin-bottom: 13px;
+  margin-bottom: 0.8125rem;
+}

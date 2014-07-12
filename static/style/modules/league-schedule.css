@@ -1,0 +1,37 @@
+.schedule:before, .schedule:after {
+  content: " ";
+  display: table;
+}
+.schedule:after {
+  clear: both;
+}
+.schedule li {
+  display: inline-block;
+  vertical-align: top;
+  background: #eeeeee;
+  padding: 14px;
+  padding: 0.875rem;
+  float: left;
+  border: 1px solid #afafaf;
+  border-left: none;
+}
+.schedule li:first-child {
+  border-left: 1px solid #afafaf;
+}
+
+.calendar-box {
+  text-align: center;
+}
+
+.game-time {
+  font-size: 14px;
+  font-size: 0.875rem;
+  margin-bottom: 10px;
+  margin-bottom: 0.625rem;
+  color: #555555;
+}
+
+.game-teams {
+  margin-bottom: 0;
+  font-weight: bold;
+}

@@ -1,0 +1,158 @@
+#comments {
+  margin: 2rem 5% 0;
+}
+@media only screen and (min-width: 768px) {
+  #comments {
+    margin: 3rem 10% 0;
+  }
+}
+#comments .t7 {
+  margin-bottom: 1rem;
+}
+
+@media only screen and (min-width: 768px) {
+  #comments-list {
+    -webkit-box-flex: 3;
+    -moz-box-flex: 3;
+    -webkit-flex: 3;
+    -ms-flex: 3;
+    flex: 3;
+    padding-left: 2rem;
+  }
+}
+
+.comments-list {
+  list-style: none;
+}
+.comments-list li {
+  padding-bottom: 1rem;
+  margin-bottom: 1.25rem;
+  border-bottom: 1px solid #e2e2e2;
+}
+
+@media only screen and (min-width: 768px) {
+  #comment-form {
+    -webkit-box-flex: 2;
+    -moz-box-flex: 2;
+    -webkit-flex: 2;
+    -ms-flex: 2;
+    flex: 2;
+  }
+}
+
+.comment {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+}
+
+.comment-vote {
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  list-style: none;
+  text-align: center;
+  margin-right: 0.5rem;
+  max-width: 20px;
+  max-width: 1.25rem;
+}
+.comment-vote li {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+.comment-vote i {
+  font-size: 175%;
+  color: #e2e2e2;
+  -webkit-transition: color 0.3s ease-out;
+  -moz-transition: color 0.3s ease-out;
+  -o-transition: color 0.3s ease-out;
+  transition: color 0.3s ease-out;
+}
+.comment-vote i:hover {
+  cursor: pointer;
+}
+.comment-vote[data-vote-cast="upvote"] .fi-arrow-up,
+.comment-vote .fi-arrow-up:hover {
+  color: #199e7d;
+}
+.comment-vote[data-vote-cast="downvote"] .fi-arrow-down,
+.comment-vote .fi-arrow-down:hover {
+  color: #2f2f2f;
+}
+
+.comment-score {
+  display: inline-block;
+  margin-bottom: 0.4rem;
+  color: #888888;
+}
+
+.comment-content {
+  -webkit-box-flex: 14;
+  -moz-box-flex: 14;
+  -webkit-flex: 14;
+  -ms-flex: 14;
+  flex: 14;
+}
+
+.comment-meta {
+  color: #7c7c7c;
+  font-size: 14px;
+  font-size: 0.875rem;
+  margin-bottom: 6.5px;
+  margin-bottom: 0.40625rem;
+}
+.comment-meta a {
+  font-family: "fontin_sans_rgbold";
+  color: #199e7d;
+  -webkit-transition: color 0.3s ease-out;
+  -moz-transition: color 0.3s ease-out;
+  -o-transition: color 0.3s ease-out;
+  transition: color 0.3s ease-out;
+}
+.comment-meta a:hover {
+  color: #2f2f2f;
+}
+
+.comment-actions {
+  font-size: 0.875rem;
+  color: #6f6f6f;
+  margin-bottom: 0.5rem;
+}
+.comment-actions li {
+  padding: 0;
+  margin: 0;
+  border-bottom: none;
+}
+.comment-actions li:hover {
+  cursor: pointer;
+}
+.comment-actions li:after {
+  content: " | ";
+}
+.comment-actions li:last-child:after {
+  content: "";
+}
+
+.comment-replies {
+  border-left: 1px solid #e2e2e2;
+  padding: 0.75rem;
+  padding-right: 0;
+  min-width: 200px;
+}
+.comment-replies li {
+  list-style: none;
+}
+.comment-replies li:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border: none;
+}
+.comment-replies .t7 {
+  color: #626262;
+  font-size: 0.75rem;
+}

@@ -1,0 +1,181 @@
+.user-gate #main {
+  background-position: 0;
+  position: relative;
+  padding: 40% 0;
+}
+@media only screen and (min-width: 768px) {
+  .user-gate #main {
+    padding: 20% 0 28%;
+  }
+}
+.user-gate #main:after {
+  content: "\00a0";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #199e7d;
+  opacity: 0.6;
+}
+.user-gate #global-footer {
+  margin-top: 0;
+}
+
+.form {
+  position: relative;
+  z-index: 50;
+  color: #f3f3f3;
+  background: rgba(30, 28, 26, 0.85);
+  padding: 1.5rem 1rem 1.25rem;
+  max-width: 24rem;
+  margin: 0 auto;
+}
+.form a {
+  color: inherit;
+  text-decoration: none;
+}
+.form p {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+.form label {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+}
+.form label span {
+  padding-top: 0.4rem;
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  font-size: 0.75rem;
+}
+@media only screen and (min-width: 480px) {
+  .form label span {
+    font-size: 0.875rem;
+  }
+}
+.form input[type="text"], .form input[type="email"], .form input[type="password"] {
+  padding: 0.25rem;
+  font-size: 1.25rem;
+  width: 70%;
+  background: rgba(226, 226, 226, 0.3);
+  border: none;
+  color: #fff;
+  border-radius: 4px;
+  margin: 0;
+  -webkit-box-flex: 3;
+  -moz-box-flex: 3;
+  -webkit-flex: 3;
+  -ms-flex: 3;
+  flex: 3;
+}
+.form input[type="submit"] {
+  border: none;
+  background: transparent;
+  color: #f3f3f3;
+  font-size: 1rem;
+  margin: 0;
+  padding-right: 1rem;
+}
+.form input[type="submit"]:hover {
+  cursor: pointer;
+}
+.form .flex-all {
+  margin-top: 1rem;
+}
+.form .flex-all span {
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
+.form .flex-all span:last-child {
+  text-align: right;
+}
+@media only screen and (min-width: 768px) {
+  .form {
+    padding: 2rem 2rem 1.5rem;
+  }
+}
+
+.form-wrapper {
+  margin: 0 5%;
+}
+@media only screen and (min-width: 768px) {
+  .form-wrapper {
+    margin: 0 10%;
+  }
+}
+
+.label-underline {
+  border-bottom: 1px solid rgba(226, 226, 226, 0.3);
+  padding-bottom: 0.5rem;
+}
+
+#register #main {
+  background: url("/static/img/backgrounds/Goal_celebration_New_York_Red_Bulls_vs_San_Jose_Earthquakes_2011.jpg");
+  background-size: cover;
+}
+
+#register-form p {
+  margin-bottom: 1.25rem;
+}
+
+#register-p {
+  margin-bottom: 0.5rem !important;
+}
+#register-p + p {
+  margin-bottom: 0.5rem;
+}
+
+#register-underline {
+  padding-bottom: 1.25rem;
+}
+
+#register-confirm {
+  color: #7c7c7c;
+}
+
+#terms-and-conditions span {
+  display: inline-block;
+  margin-bottom: 0.25rem;
+  font-size: 0.875rem;
+}
+#terms-and-conditions input {
+  margin-right: 0.5rem;
+  margin-bottom: 0;
+}
+#terms-and-conditions a {
+  text-decoration: underline;
+}
+
+#login #main {
+  background: url("/static/img/backgrounds/rhinos-1.jpg");
+  background-size: cover;
+}
+
+#forgot-password {
+  font-size: 0.875rem !important;
+  vertical-align: middle;
+}
+#forgot-password a {
+  margin: 0 !important;
+  position: relative;
+  top: 0.25rem;
+}
+
+#forgotten-password #main {
+  background: url("/static/img/backgrounds/previa-america-cruz-azul-copa-mx-semifinales-2013.jpg");
+  background-size: cover;
+}
+
+#forgotten-password-form .flex-all span:last-child {
+  text-align: center;
+}

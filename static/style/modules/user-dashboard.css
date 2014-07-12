@@ -1,0 +1,289 @@
+#profile #main {
+  background: #fff;
+  margin-top: 0;
+}
+#profile .container {
+  background: #000;
+}
+#profile #global-footer {
+  margin-top: 0;
+}
+
+@media only screen and (min-width: 768px) {
+  #user-profile {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+  }
+}
+
+#user-header {
+  color: #fff;
+  background: #199e7d;
+  padding: 5%;
+  margin-bottom: 2rem;
+}
+@media only screen and (min-width: 768px) {
+  #user-header {
+    text-align: right;
+    padding: 5% 0;
+    margin: 0;
+    max-width: 286px;
+    max-width: 17.875rem;
+  }
+  #user-header .flex {
+    display: block;
+  }
+}
+
+#username {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+@media only screen and (min-width: 768px) {
+  #username {
+    margin: 0 10% 0.5rem;
+  }
+}
+
+#user-profile-image {
+  height: 156px;
+  height: 9.75rem;
+  overflow: hidden;
+  margin: 0 0 0.5rem;
+}
+#user-profile-image img {
+  display: block;
+  width: 100%;
+}
+
+#logout {
+  background: transparent;
+  border: none;
+  color: #444;
+  margin-left: 10%;
+  padding: 0;
+}
+#logout:hover {
+  cursor: pointer;
+}
+
+@media only screen and (min-width: 768px) {
+  #user-nav {
+    margin: 3rem 10% 0;
+  }
+}
+
+#user-nav-list {
+  list-style: none;
+  margin-left: 10%;
+}
+#user-nav-list li {
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+  -webkit-transition: color 0.3s ease-out;
+  -moz-transition: color 0.3s ease-out;
+  -o-transition: color 0.3s ease-out;
+  transition: color 0.3s ease-out;
+}
+#user-nav-list li:hover {
+  color: white;
+}
+#user-nav-list a {
+  text-decoration: none;
+  color: inherit;
+}
+
+@media only screen and (min-width: 768px) {
+  #user-dashboard {
+    margin-top: 10%;
+  }
+}
+
+.user-section {
+  margin: 0 5% 4rem;
+}
+@media only screen and (min-width: 768px) {
+  .user-section {
+    margin: 0 10% 4rem;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+  }
+}
+.user-section .t7 {
+  margin-bottom: 0.5rem;
+}
+
+.user-dash-list {
+  list-style: none;
+}
+.user-dash-list li {
+  border-bottom: 1px solid rgba(226, 226, 226, 0.7);
+  margin-bottom: 0.5rem;
+}
+
+#bookmarked-articles-list .article-title {
+  font-size: 1rem;
+}
+#bookmarked-articles-list .article-meta {
+  font-size: 0.75rem;
+}
+
+#user-comment-list {
+  list-style: none;
+}
+
+.user-comment {
+  border-bottom: 1px solid #cccccc;
+  margin-bottom: 1.5rem;
+}
+.user-comment .t6 {
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+}
+
+.user-dash-comment-replies-list {
+  list-style: none;
+}
+.user-dash-comment-replies-list li {
+  margin-bottom: 2rem;
+}
+
+.user-dash-comment-reply .t5 {
+  font-size: 0.875rem;
+}
+.user-dash-comment-reply .t5 a {
+  text-decoration: none;
+  font-weight: bold;
+  margin-right: 0.5rem;
+}
+
+.user-profile-thumbnail {
+  max-width: 52px;
+  max-width: 3.25rem;
+}
+
+.comment-date {
+  font-size: 0.75rem;
+  color: #6f6f6f;
+}
+
+#user-subscriptions-list li {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  margin-bottom: 0.75rem;
+}
+#user-subscriptions-list .t6 {
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  font-size: 1rem;
+  font-family: "fontin_sans_rgbold";
+}
+#user-subscriptions-list a {
+  color: inherit;
+  text-decoration: none;
+}
+#user-subscriptions-list span {
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  font-size: 0.875rem;
+  text-align: right;
+  color: #2f2f2f;
+}
+#user-subscriptions-list .fi-x {
+  color: #ccc;
+  font-size: 1rem;
+  margin-left: 0.75rem;
+  border-left: 1px solid rgba(226, 226, 226, 0.9);
+  padding: 0 0.4rem;
+  -webkit-transition: color 0.3s ease-out;
+  -moz-transition: color 0.3s ease-out;
+  -o-transition: color 0.3s ease-out;
+  transition: color 0.3s ease-out;
+}
+#user-subscriptions-list .fi-x:hover {
+  cursor: pointer;
+  color: #2f2f2f;
+}
+
+#user-settings {
+  margin-bottom: 0;
+  padding-bottom: 4rem;
+}
+#user-settings input[type="password"], #user-settings input[type="email"] {
+  margin-bottom: 0.25rem;
+}
+
+.setting-option {
+  font-size: 0.75rem;
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  text-align: right;
+}
+
+#user-settings-list li, #user-settings-list label {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  align-items: center;
+}
+#user-settings-list .select-label {
+  display: inline-block;
+}
+#user-settings-list li {
+  padding-bottom: 0.35rem;
+  margin-bottom: 0.65rem;
+}
+#user-settings-list label {
+  width: 100%;
+}
+#user-settings-list label span {
+  text-align: left;
+}
+#user-settings-list .t6 {
+  font-size: 1rem;
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
+
+#beta-test-li {
+  display: block !important;
+}
+#beta-test-li p {
+  font-size: 0.75rem;
+}
+
+.nothing-yet {
+  font-size: 0.875rem;
+  color: #afafaf;
+  font-style: italic;
+}
+
+#member-since {
+  margin: 2rem 0 0;
+  font-size: 0.875rem;
+  color: #626262;
+  font-style: italic;
+}

@@ -1,0 +1,132 @@
+#search-li {
+  padding-top: 0.75rem !important;
+  position: relative;
+}
+@media only screen and (min-width: 768px) {
+  #search-li {
+    padding: 0.1rem 0.7rem 0 !important;
+  }
+}
+
+#search-toggle {
+  position: relative;
+  z-index: 40;
+  padding: 0.35rem 0 0.25rem;
+  margin: 0 5%;
+  -webkit-transition: opacity 0.1s ease-out;
+  -moz-transition: opacity 0.1s ease-out;
+  -o-transition: opacity 0.1s ease-out;
+  transition: opacity 0.1s ease-out;
+}
+#search-toggle.hidden {
+  opacity: 0;
+  z-index: 0;
+}
+
+@media only screen and (min-width: 768px) {
+  #search-text {
+    display: none;
+  }
+}
+
+#search-form {
+  position: absolute;
+  z-index: 35;
+  top: 0.75rem;
+  width: 89%;
+  margin: 0 5%;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  align-items: center;
+  -webkit-transition: opacity 0.1s ease-out;
+  -moz-transition: opacity 0.1s ease-out;
+  -o-transition: opacity 0.1s ease-out;
+  transition: opacity 0.1s ease-out;
+}
+#search-form input[type="text"] {
+  width: 100%;
+  font-size: 1rem;
+  padding: 0.25rem;
+  margin-bottom: 0;
+  background: #554f49;
+  color: #f3f3f3;
+  border: none;
+  -webkit-box-flex: 9;
+  -moz-box-flex: 9;
+  -webkit-flex: 9;
+  -ms-flex: 9;
+  flex: 9;
+}
+#search-form.hidden {
+  opacity: 0;
+  z-index: -1;
+  display: none;
+}
+@media only screen and (min-width: 768px) {
+  #search-form {
+    min-width: 300px;
+    min-width: 18.75rem;
+    right: 0;
+    top: 2.6rem;
+    background: #199e7d;
+    padding: 0.75rem 1rem 1rem;
+    margin: 0;
+  }
+}
+
+#search-form-close {
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  text-align: right;
+  color: #afafaf;
+}
+#search-form-close:hover {
+  cursor: pointer;
+}
+
+#search-results {
+  background: #12725a;
+  margin-top: 0.875rem;
+  padding-top: 2rem;
+}
+#search-results .t7 {
+  margin-left: 5%;
+  color: #fff;
+}
+@media only screen and (min-width: 768px) {
+  #search-results {
+    position: absolute;
+    right: 0;
+    width: 300px;
+    width: 18.75rem;
+    margin-top: 3.5rem;
+  }
+}
+#search-results.hidden {
+  display: none;
+}
+
+#search-results-list li {
+  background: transparent;
+}
+@media only screen and (min-width: 768px) {
+  #search-results-list li {
+    display: block;
+    float: none;
+    margin: 0.5rem 0;
+  }
+  #search-results-list li:last-child {
+    margin-bottom: 0;
+  }
+  #search-results-list li a {
+    margin-bottom: 0.5rem;
+    text-transform: none;
+    font-size: 1rem;
+  }
+}
