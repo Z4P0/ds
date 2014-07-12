@@ -1,8 +1,12 @@
 from flask import Flask, render_template
 from flask.ext.script import Manager
+from flask.ext.moment import Moment
+
+from datetime import datetime
 
 app = Flask(__name__)
 manager = Manager(app)
+moment = Moment(app)
 
 
 
@@ -12,7 +16,8 @@ def index():
 		title = 'DS',
 		description = 'Your source for the CONCACAF',
 		page_id = 'homepage',
-		data_page = 'homepage'
+		data_page = 'homepage',
+		current_time = datetime.utcnow()
 		)
 
 
