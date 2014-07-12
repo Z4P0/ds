@@ -1,9 +1,19 @@
-from flask import Flask
+from flask import Flask, render_template
+from flask.ext.script import Manager
+
 app = Flask(__name__)
+manager = Manager(app)
+
+
 
 @app.route('/')
 def index():
-	return 'Doherty Soccer'
+	return render_template('ds/00-homepage.html',
+		title = 'DS',
+		description = 'Your source for the CONCACAF',
+		page_id = 'homepage',
+		data_page = 'homepage'
+		)
 
 
 
@@ -123,4 +133,4 @@ def about_ds():
 
 
 if __name__ == '__main__':
-	app.run(debug=True)
+	manager.run()
