@@ -4,20 +4,63 @@ from flask.ext.moment import Moment
 
 from datetime import datetime
 
+from forms import NameForm, LoginForm, RegisterForm, ChangeEmailForm, ResetPasswordForm, CommentForm, FollowForm, SearchForm, ContactForm, ProfileForm, BookmarkForm, SubscribeForm, ChangePasswordForm
+
+
+
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'development sceret key fsd'
+
 manager = Manager(app)
 moment = Moment(app)
 
 
 
+
+# forms debug page
+@app.route('/forms/')
+def debug_forms():
+	name_form = NameForm()
+	login_form = LoginForm()
+	register_form = RegisterForm()
+	changeemail_form = ChangeEmailForm()
+	changepassword_form = ChangePasswordForm()
+	resetpassword_form = ResetPasswordForm()
+	comment_form = CommentForm()
+	follow_form = FollowForm()
+	search_form = SearchForm()
+	contact_form = ContactForm()
+	profile_form = ProfileForm()
+	bookmark_form = BookmarkForm()
+	subscribe_form = SubscribeForm()
+	return render_template('debug/forms.html',
+		name_form = name_form,
+		login_form = login_form,
+		register_form = register_form,
+		changeemail_form = changeemail_form,
+		changepassword_form = changepassword_form,
+		resetpassword_form = resetpassword_form,
+		comment_form = comment_form,
+		follow_form = follow_form,
+		search_form = search_form,
+		contact_form = contact_form,
+		profile_form = profile_form,
+		bookmark_form = bookmark_form,
+		subscribe_form = subscribe_form
+		)
+
+
 @app.route('/')
 def index():
+	form = NameForm()
+
 	return render_template('ds/00-homepage.html',
 		title = 'DS',
 		description = 'Your source for the CONCACAF',
 		page_id = 'homepage',
 		data_page = 'homepage',
-		current_time = datetime.utcnow()
+		current_time = datetime.utcnow(),
+		form = form
 		)
 
 

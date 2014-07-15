@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+
+{% block title %}Forms debug | {% endblock %}
+{% block description %}Debugging the forms{% endblock %}
+{% block page_id %}forms-debug{% endblock %}
+{% block data_page %}forms-debug{% endblock %}
+
+
+{% block content %}
+<h2>DS Forms</h2>
+<hr>
+<ul>
+
+	<li>
+		<h3>Name Form</h3>
+		<form method="post">
+			{{ name_form.name.label }} {{ name_form.name() }} <br/>
+			{{ name_form.submit() }}
+		</form>
+	</li>
+	
+
+	<li>
+		<h3>Login Form</h3>
+		<form method="post">
+			{{ login_form.email.label }} {{ login_form.email() }} <br/>
+			{{ login_form.password.label }} {{ login_form.password() }} <br/>
+			{{ login_form.remember_me() }} <br/>
+			{{ login_form.submit() }}
+		</form>
+	</li>
+
+
+	<li>
+		<h3>Register Form</h3>
+		<form method="post">
+			{{ register_form.username.label }} {{ register_form.username() }} <br/>
+			{{ register_form.email.label }} {{ register_form.email() }} <br/>
+			{{ register_form.password.label }} {{ register_form.password() }} <br/>
+			{{ register_form.password2.label }} {{ register_form.password2() }} <br/>
+			<p>
+				{{ register_form.agree_to_terms() }}
+				I agree
+			</p>
+			{{ register_form.submit() }}
+		</form>
+	</li>
+
+
+	<li>
+		<h3>Change Email Form</h3>
+		<form method="post">
+			{{ changeemail_form.email.label }} {{ changeemail_form.email() }} <br/>
+			{{ changeemail_form.submit() }}
+		</form>
+	</li>
+
+
+	<li>
+		<h3>Change Password Form</h3>
+		<form method="post">
+			{{ changepassword_form.current_password.label }} {{ changepassword_form.current_password() }} <br/>
+			{{ changepassword_form.new_password.label }} {{ changepassword_form.new_password() }} <br/>
+			{{ changepassword_form.new_password2.label }} {{ changepassword_form.new_password2() }} <br/>
+
+		</form>
+	</li>
+
+
+	<li>
+		<h3>Reset Password Form</h3>
+		<form method="post">
+			{{ resetpassword_form.email.label }} {{ resetpassword_form.email() }} <br/>
+			{{ resetpassword_form.submit() }}
+		</form>
+	</li>
+
+
+	<li>
+		<h3>Comment Form</h3>
+		<form method="post">
+			{{ comment_form.body() }} <br/>
+			{{ comment_form.follow_replies.label }} {{ comment_form.follow_replies() }} <br/>
+			{{ comment_form.submit() }}
+
+		</form>
+	</li>
+
+
+	<li>
+		<h3>Follow Form</h3>
+		<form method="post">
+			{{ follow_form.submit() }} <br/>
+		</form>
+	</li>
+
+
+	<li>
+		<h3>Search Form</h3>
+		<form method="post">
+			{{ search_form.text() }} <br/>
+			{{ search_form.submit() }} <br/>
+		</form>
+	</li>
+
+
+	<li>
+		<h3>Contact Form</h3>
+		<form method="post">
+			{{ contact_form.message.label }} {{ contact_form.message() }} <br/>
+			{{ contact_form.name.label }} {{ contact_form.name() }} <br/>
+			{{ contact_form.email.label }} {{ contact_form.email() }} <br/>
+			{{ contact_form.send() }} <br/>
+		</form>
+	</li>
+
+
+	<li>
+		<h3>Profile Form</h3>
+		<form method="post">
+			{{ profile_form.fullname.label }} {{ profile_form.fullname() }} <br/>
+			{{ profile_form.twitter.label }} {{ profile_form.twitter() }} <br/>
+			{{ profile_form.instagram.label }} {{ profile_form.instagram() }} <br/>
+			{{ profile_form.bio.label }} {{ profile_form.bio() }} <br/>
+			{{ profile_form.picture.label }} {{ profile_form.picture() }} <br/>
+			{{ profile_form.save() }} <br/>
+		</form>
+	</li>
+
+
+	<li>
+		<h3>Bookmark Form</h3>
+		<form method="post">
+			{{ bookmark_form.bookmark() }} <br/>
+
+		</form>
+	</li>
+
+
+	<li>
+		<h3>Subscribe Form</h3>
+		<form method="post">
+			{{ subscribe_form.subscribe() }} <br/>
+
+		</form>
+	</li>
+</ul>
+{% endblock %}

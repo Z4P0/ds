@@ -8,8 +8,13 @@
 
 {% block content %}
 <h2>Latest Articles</h2>
-
 <img src="/static/img/freedom.jpg">
+
+<form method="post">
+	{{ form.name.label }} {{ form.name() }}
+	{{ form.submit( )}}
+</form>
+
 <p>Local date and tie is {{ moment(current_time).format('LLL') }}</p>
 <p>That was {{ moment(current_time).fromNow(refresh=True) }}</p>
 {% endblock %}
