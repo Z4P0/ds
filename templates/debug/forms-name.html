@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Forms debug | {% endblock %}
+{% block description %}Debugging the forms{% endblock %}
+{% block page_id %}forms-debug{% endblock %}
+{% block data_page %}forms-debug{% endblock %}
+
+
+{% block content %}
+<div class="wrapper">
+	<h2>DS Forms</h2>
+	<p id="debug">
+	{% if name %} {{ name }} {% else %} stranger {% endif %}
+	</p>
+	<hr>
+	<ul>
+		<li>
+			<h3>Name Form</h3>
+			<form method="post">
+				{{ name_form.hidden_tag() }}
+				{{ name_form.name.label }} {{ name_form.name() }} <br/>
+				{{ name_form.submit() }}
+			</form>
+		</li>
+	</ul>
+</div>
+{% endblock %}

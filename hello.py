@@ -17,37 +17,93 @@ moment = Moment(app)
 
 
 
+
 # forms debug page
-@app.route('/forms/')
+@app.route('/forms-test/', methods=['GET', 'POST'])
 def debug_forms():
+	# pretty much all the info we can store on people..
+	name = None
 	name_form = NameForm()
-	login_form = LoginForm()
-	register_form = RegisterForm()
-	changeemail_form = ChangeEmailForm()
-	changepassword_form = ChangePasswordForm()
-	resetpassword_form = ResetPasswordForm()
-	comment_form = CommentForm()
-	follow_form = FollowForm()
-	search_form = SearchForm()
-	contact_form = ContactForm()
-	profile_form = ProfileForm()
-	bookmark_form = BookmarkForm()
-	subscribe_form = SubscribeForm()
-	return render_template('debug/forms.html',
+	if name_form.validate_on_submit():
+		name = name_form.name.data
+		name_form.name.data = ''
+
+	return render_template('debug/forms-name.html',
 		name_form = name_form,
-		login_form = login_form,
-		register_form = register_form,
-		changeemail_form = changeemail_form,
-		changepassword_form = changepassword_form,
-		resetpassword_form = resetpassword_form,
-		comment_form = comment_form,
-		follow_form = follow_form,
-		search_form = search_form,
-		contact_form = contact_form,
-		profile_form = profile_form,
-		bookmark_form = bookmark_form,
-		subscribe_form = subscribe_form
+		name = name
 		)
+
+
+# # forms debug page
+# @app.route('/forms/', methods=['GET', 'POST'])
+# def debug_forms():
+# 	# pretty much all the info we can store on people..
+# 	name = None
+# 	email = None
+# 	password = None
+# 	password2 = None
+# 	remember_me = None
+# 	username = None
+# 	agree_to_terms = None
+# 	text_body = None
+# 	follow_replies = None
+# 	search_text = None
+# 	message = None
+# 	fullname = None
+# 	twitter = None
+# 	instagram = None
+# 	bio = None
+# 	picture = None
+
+
+# 	name_form = NameForm()
+# 	if name_form.validate_on_submit():
+# 		name = name_form.name.data
+# 		name_form.name.data = ''
+
+# 	login_form = LoginForm()
+# 	register_form = RegisterForm()
+# 	changeemail_form = ChangeEmailForm()
+# 	changepassword_form = ChangePasswordForm()
+# 	resetpassword_form = ResetPasswordForm()
+# 	comment_form = CommentForm()
+# 	follow_form = FollowForm()
+# 	search_form = SearchForm()
+# 	contact_form = ContactForm()
+# 	profile_form = ProfileForm()
+# 	bookmark_form = BookmarkForm()
+# 	subscribe_form = SubscribeForm()
+# 	return render_template('debug/forms.html',
+# 		name_form = name_form,
+# 		login_form = login_form,
+# 		register_form = register_form,
+# 		changeemail_form = changeemail_form,
+# 		changepassword_form = changepassword_form,
+# 		resetpassword_form = resetpassword_form,
+# 		comment_form = comment_form,
+# 		follow_form = follow_form,
+# 		search_form = search_form,
+# 		contact_form = contact_form,
+# 		profile_form = profile_form,
+# 		bookmark_form = bookmark_form,
+# 		subscribe_form = subscribe_form,
+# 		name = name,
+# 		email = email,
+# 		password = password,
+# 		password2 = password2,
+# 		remember_me = remember_me,
+# 		username = username,
+# 		agree_to_terms = agree_to_terms,
+# 		text_body = text_body,
+# 		follow_replies = follow_replies,
+# 		search_text = search_text,
+# 		message = message,
+# 		fullname = fullname,
+# 		twitter = twitter,
+# 		instagram = instagram,
+# 		bio = bio,
+# 		picture = picture
+# 		)
 
 
 @app.route('/')

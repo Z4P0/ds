@@ -47,6 +47,7 @@ class ChangePasswordForm(Form):
 		current_password = PasswordField('Current Password', validators=[Required()])
 		new_password = PasswordField('New Password', validators=[Required(), Length(6, 28)])
 		new_password2 = PasswordField('Confirm', validators=[Required(), EqualTo('new_password')])
+		submit = SubmitField('Change')
 
 
 
