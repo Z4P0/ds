@@ -1,16 +1,21 @@
-from flask import Flask, render_template, session, redirect, url_for
+import os
+from flask import Flask, render_template, session, redirect, url_for, flash
 from flask.ext.script import Manager
+from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.moment import Moment
-
-from datetime import datetime
-
-from forms import NameForm, LoginForm, RegisterForm, ChangeEmailForm, ResetPasswordForm, CommentForm, FollowForm, SearchForm, ContactForm, ProfileForm, BookmarkForm, SubscribeForm, ChangePasswordForm
 from flask_wtf.csrf import CsrfProtect
 
+from datetime import datetime
+from forms import NameForm, LoginForm, RegisterForm, ChangeEmailForm, ResetPasswordForm, CommentForm, FollowForm, SearchForm, ContactForm, ProfileForm, BookmarkForm, SubscribeForm, ChangePasswordForm
+
+basedir = os.path.abspath(os.path.dirname(__file__))
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'development sceret key fsd'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////' + os.path.join(basedir, 'data.sqlite')
+app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
 
+db = SQLAlchemy(app)
 csrf = CsrfProtect(app)
 manager = Manager(app)
 moment = Moment(app)
@@ -27,7 +32,11 @@ def debug_name_form():
 		# pretty much all the info we can store on people..
 		name_form = NameForm()
 		if name_form.validate_on_submit():
+			old_name = session.get('name')
+			if old_name is not None and old_name != form.name.data:
+					flash('changed your name huh? you still a bitch')
 			session['name'] = name_form.name.data
+			name_form.name.data = ''
 			return redirect(url_for('debug_name_form'))
 
 		return render_template('debug/forms-name.html',

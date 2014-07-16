@@ -9,6 +9,9 @@
 {% block content %}
 <div class="wrapper">
 	<h2>DS Forms</h2>
+	{% for message in get_flashed_messages() %}
+		<div class="alert">{{message}}</div>
+	{% endfor %}
 	<p id="debug">
 		<ul>
 			<li>{% if name %} {{ name }} {% else %} stranger {% endif %}</li>
