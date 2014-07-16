@@ -5,22 +5,25 @@ from flask.ext.moment import Moment
 from datetime import datetime
 
 from forms import NameForm, LoginForm, RegisterForm, ChangeEmailForm, ResetPasswordForm, CommentForm, FollowForm, SearchForm, ContactForm, ProfileForm, BookmarkForm, SubscribeForm, ChangePasswordForm
-
+from flask_wtf.csrf import CsrfProtect
 
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'development sceret key fsd'
 
+csrf = CsrfProtect(app)
 manager = Manager(app)
 moment = Moment(app)
 
 
 
-
+@csrf.error_handler
+def csrf_error(reason):
+		return render_template('csrf_error.html', reason=reason), 400
 
 # forms debug page
 @app.route('/forms-test/', methods=['GET', 'POST'])
-def debug_forms():
+def debug_name_form():
 	# pretty much all the info we can store on people..
 	name = None
 	name_form = NameForm()
@@ -34,76 +37,163 @@ def debug_forms():
 		)
 
 
-# # forms debug page
-# @app.route('/forms/', methods=['GET', 'POST'])
-# def debug_forms():
-# 	# pretty much all the info we can store on people..
-# 	name = None
-# 	email = None
-# 	password = None
-# 	password2 = None
-# 	remember_me = None
-# 	username = None
-# 	agree_to_terms = None
-# 	text_body = None
-# 	follow_replies = None
-# 	search_text = None
-# 	message = None
-# 	fullname = None
-# 	twitter = None
-# 	instagram = None
-# 	bio = None
-# 	picture = None
+# forms debug page
+@app.route('/forms/', methods=['GET', 'POST'])
+def debug_forms():
+		# pretty much all the info we can store on people..
+		name = None
+		email = None
+		password = None
+		password2 = None
+		remember_me = None
+		username = None
+		agree_to_terms = None
+		text_body = None
+		follow_replies = None
+		search_text = None
+		message = None
+		fullname = None
+		twitter = None
+		instagram = None
+		bio = None
+		picture = None
 
 
-# 	name_form = NameForm()
-# 	if name_form.validate_on_submit():
-# 		name = name_form.name.data
-# 		name_form.name.data = ''
+		name_form = NameForm()
+		if name_form.validate_on_submit():
+				name = name_form.name.data
+				name_form.name.data = ''
 
-# 	login_form = LoginForm()
-# 	register_form = RegisterForm()
-# 	changeemail_form = ChangeEmailForm()
-# 	changepassword_form = ChangePasswordForm()
-# 	resetpassword_form = ResetPasswordForm()
-# 	comment_form = CommentForm()
-# 	follow_form = FollowForm()
-# 	search_form = SearchForm()
-# 	contact_form = ContactForm()
-# 	profile_form = ProfileForm()
-# 	bookmark_form = BookmarkForm()
-# 	subscribe_form = SubscribeForm()
-# 	return render_template('debug/forms.html',
-# 		name_form = name_form,
-# 		login_form = login_form,
-# 		register_form = register_form,
-# 		changeemail_form = changeemail_form,
-# 		changepassword_form = changepassword_form,
-# 		resetpassword_form = resetpassword_form,
-# 		comment_form = comment_form,
-# 		follow_form = follow_form,
-# 		search_form = search_form,
-# 		contact_form = contact_form,
-# 		profile_form = profile_form,
-# 		bookmark_form = bookmark_form,
-# 		subscribe_form = subscribe_form,
-# 		name = name,
-# 		email = email,
-# 		password = password,
-# 		password2 = password2,
-# 		remember_me = remember_me,
-# 		username = username,
-# 		agree_to_terms = agree_to_terms,
-# 		text_body = text_body,
-# 		follow_replies = follow_replies,
-# 		search_text = search_text,
-# 		message = message,
-# 		fullname = fullname,
-# 		twitter = twitter,
-# 		instagram = instagram,
-# 		bio = bio,
-# 		picture = picture
-# 		)
+
+		login_form = LoginForm()
+		if login_form.validate_on_submit():
+				email = login_form.email.data
+				login_form.email.data = ''
+				password = login_form.password.data
+				login_form.password.data = ''
+				remember_me = login_form.remember_me.data
+				login_form.remember_me.data = ''
+
+
+		register_form = RegisterForm()
+		if register_form.validate_on_submit():
+				username = register_form.username.data
+				register_form.username.data = ''
+				email = register_form.email.data
+				register_form.email.data = ''
+				password = register_form.password.data
+				register_form.password.data = ''
+				agree_to_terms = register_form.agree_to_terms.data
+				register_form.agree_to_terms.data = ''
+
+
+		changeemail_form = ChangeEmailForm()
+		if changeemail_form.validate_on_submit():
+				email = changeemail_form.email.data
+				changeemail_form.email.data = ''
+
+
+		changepassword_form = ChangePasswordForm()
+		if changepassword_form.validate_on_submit():
+				current_password = changepassword_form.current_password.data
+				changepassword_form.current_password.data = ''
+				new_password = changepassword_form.new_password.data
+				changepassword_form.new_password.data = ''
+
+
+		resetpassword_form = ResetPasswordForm()
+		if resetpassword_form.validate_on_submit():
+				email = resetpassword_form.email.data
+				resetpassword_form.email.data = ''
+
+
+		comment_form = CommentForm()
+		if comment_form.validate_on_submit():
+				body = comment_form.body.data
+				comment_form.body.data = ''
+				follow_replies = comment_form.follow_replies.data
+				comment_form.follow_replies.data = ''
+
+
+		follow_form = FollowForm()
+		if follow_form.validate_on_submit():
+				# do something
+				pass
+
+		search_form = SearchForm()
+		if search_form.validate_on_submit():
+				text = search_form.text.data
+				search_form.text.data = ''
+
+
+		contact_form = ContactForm()
+		if contact_form.validate_on_submit():
+				message = contact_form.message.data
+				contact_form.message.data = ''
+				name = contact_form.name.data
+				contact_form.name.data = ''
+				email = contact_form.email.data
+				contact_form.email.data = ''
+
+
+
+		profile_form = ProfileForm()
+		if profile_form.validate_on_submit():
+				fullname = profile_form.fullname.data
+				profile_form.fullname.data = ''
+				twitter = profile_form.twitter.data
+				profile_form.twitter.data = ''
+				instagram = profile_form.instagram.data
+				profile_form.instagram.data = ''
+				bio = profile_form.bio.data
+				profile_form.bio.data = ''
+				picture = profile_form.picture.data
+				profile_form.picture.data = ''
+
+
+		bookmark_form = BookmarkForm()
+		if bookmark_form.validate_on_submit():
+				# do something
+				pass
+
+
+		subscribe_form = SubscribeForm()
+		if subscribe_form.validate_on_submit():
+				# do something
+				pass
+
+
+		return render_template('debug/forms.html',
+				name_form = name_form,
+				login_form = login_form,
+				register_form = register_form,
+				changeemail_form = changeemail_form,
+				changepassword_form = changepassword_form,
+				resetpassword_form = resetpassword_form,
+				comment_form = comment_form,
+				follow_form = follow_form,
+				search_form = search_form,
+				contact_form = contact_form,
+				profile_form = profile_form,
+				bookmark_form = bookmark_form,
+				subscribe_form = subscribe_form,
+				name = name,
+				email = email,
+				password = password,
+				password2 = password2,
+				remember_me = remember_me,
+				username = username,
+				agree_to_terms = agree_to_terms,
+				text_body = text_body,
+				follow_replies = follow_replies,
+				search_text = search_text,
+				message = message,
+				fullname = fullname,
+				twitter = twitter,
+				instagram = instagram,
+				bio = bio,
+				picture = picture
+				)
 
 
 @app.route('/')

@@ -35,6 +35,7 @@
 		<li>
 			<h3>Name Form</h3>
 			<form method="post">
+				{{ name_form.hidden_tag() }}
 				{{ name_form.name.label }} {{ name_form.name() }} <br/>
 				{{ name_form.submit() }}
 			</form>
@@ -44,6 +45,7 @@
 		<li>
 			<h3>Login Form</h3>
 			<form method="post">
+				{{ login_form.hidden_tag() }}
 				{{ login_form.email.label }} {{ login_form.email() }} <br/>
 				{{ login_form.password.label }} {{ login_form.password() }} <br/>
 				{{ login_form.remember_me() }} <br/>
@@ -55,6 +57,7 @@
 		<li>
 			<h3>Register Form</h3>
 			<form method="post">
+				{{ register_form.hidden_tag() }}
 				{{ register_form.username.label }} {{ register_form.username() }} <br/>
 				{{ register_form.email.label }} {{ register_form.email() }} <br/>
 				{{ register_form.password.label }} {{ register_form.password() }} <br/>
@@ -71,6 +74,7 @@
 		<li>
 			<h3>Change Email Form</h3>
 			<form method="post">
+				{{ changeemail_form.hidden_tag() }}
 				{{ changeemail_form.email.label }} {{ changeemail_form.email() }} <br/>
 				{{ changeemail_form.submit() }}
 			</form>
@@ -80,6 +84,7 @@
 		<li>
 			<h3>Change Password Form</h3>
 			<form method="post">
+				{{ changepassword_form.hidden_tag() }}
 				{{ changepassword_form.current_password.label }} {{ changepassword_form.current_password() }} <br/>
 				{{ changepassword_form.new_password.label }} {{ changepassword_form.new_password() }} <br/>
 				{{ changepassword_form.new_password2.label }} {{ changepassword_form.new_password2() }} <br/>
@@ -91,6 +96,7 @@
 		<li>
 			<h3>Reset Password Form</h3>
 			<form method="post">
+				{{ resetpassword_form.hidden_tag() }}
 				{{ resetpassword_form.email.label }} {{ resetpassword_form.email() }} <br/>
 				{{ resetpassword_form.submit() }}
 			</form>
@@ -100,6 +106,7 @@
 		<li>
 			<h3>Comment Form</h3>
 			<form method="post">
+				{{ comment_form.hidden_tag() }}
 				{{ comment_form.body() }} <br/>
 				{{ comment_form.follow_replies.label }} {{ comment_form.follow_replies() }} <br/>
 				{{ comment_form.submit() }}
@@ -111,6 +118,7 @@
 		<li>
 			<h3>Follow Form</h3>
 			<form method="post">
+				{{ follow_form.hidden_tag() }}
 				{{ follow_form.submit() }} <br/>
 			</form>
 		</li>
@@ -119,6 +127,7 @@
 		<li>
 			<h3>Search Form</h3>
 			<form method="post">
+				{{ search_form.hidden_tag() }}
 				{{ search_form.text() }} <br/>
 				{{ search_form.submit() }} <br/>
 			</form>
@@ -128,6 +137,7 @@
 		<li>
 			<h3>Contact Form</h3>
 			<form method="post">
+				{{ contact_form.hidden_tag() }}
 				{{ contact_form.message.label }} {{ contact_form.message() }} <br/>
 				{{ contact_form.name.label }} {{ contact_form.name() }} <br/>
 				{{ contact_form.email.label }} {{ contact_form.email() }} <br/>
@@ -139,6 +149,7 @@
 		<li>
 			<h3>Profile Form</h3>
 			<form method="post">
+				{{ profile_form.hidden_tag() }}
 				{{ profile_form.fullname.label }} {{ profile_form.fullname() }} <br/>
 				{{ profile_form.twitter.label }} {{ profile_form.twitter() }} <br/>
 				{{ profile_form.instagram.label }} {{ profile_form.instagram() }} <br/>
@@ -152,6 +163,7 @@
 		<li>
 			<h3>Bookmark Form</h3>
 			<form method="post">
+				{{ bookmark_form.hidden_tag() }}
 				{{ bookmark_form.bookmark() }} <br/>
 
 			</form>
@@ -161,6 +173,7 @@
 		<li>
 			<h3>Subscribe Form</h3>
 			<form method="post">
+				{{ subscribe_form.hidden_tag() }}
 				{{ subscribe_form.subscribe() }} <br/>
 
 			</form>
