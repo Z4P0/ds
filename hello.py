@@ -1,11 +1,12 @@
 import os
+from datetime import datetime
 from flask import Flask, render_template, session, redirect, url_for, flash
 from flask.ext.script import Manager, Shell
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.moment import Moment
 from flask_wtf.csrf import CsrfProtect
+from flask.ext.migrate import Migrate, MigrateCommand
 
-from datetime import datetime
 from forms import NameForm, LoginForm, RegisterForm, ChangeEmailForm, ResetPasswordForm, CommentForm, FollowForm, SearchForm, ContactForm, ProfileForm, BookmarkForm, SubscribeForm, ChangePasswordForm
 
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -16,6 +17,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////' + os.path.join(basedir, 'd
 app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
 
 db = SQLAlchemy(app)
+migrate = Migrate(app, db)
 csrf = CsrfProtect(app)
 manager = Manager(app)
 moment = Moment(app)
@@ -362,7 +364,8 @@ def internal_server_error(e):
 
 def make_shell_context():
     return dict(app=app, db=db, User=User, Role=Role)
-manager.add_command("shell", Shell(make_context=make_shell_context))
+manager.add_command('shell', Shell(make_context=make_shell_context))
+manager.add_command('db', MigrateCommand)
 
 
 if __name__ == '__main__':
