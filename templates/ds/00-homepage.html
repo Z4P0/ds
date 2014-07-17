@@ -10,7 +10,14 @@
 <h2>Latest Articles</h2>
 <img src="/static/img/freedom.jpg">
 
+<h3>Hello {% if name %}{{ name }}{% else %}Stranger{% endif %}</h3>
+{% if not known %}
+<p>Nice to meet you</p>
+{% else %}
+<p>Good to see you again</p>
+{% endif %}
 <form method="post">
+	{{ form.hidden_tag() }}
 	{{ form.name.label }} {{ form.name() }}
 	{{ form.submit( )}}
 </form>

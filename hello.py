@@ -1,6 +1,6 @@
 import os
 from flask import Flask, render_template, session, redirect, url_for, flash
-from flask.ext.script import Manager
+from flask.ext.script import Manager, Shell
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.moment import Moment
 from flask_wtf.csrf import CsrfProtect
@@ -19,6 +19,40 @@ db = SQLAlchemy(app)
 csrf = CsrfProtect(app)
 manager = Manager(app)
 moment = Moment(app)
+
+
+
+class Role(db.Model):
+    """ Users can be admins, guests-posts, or regular """
+    __tablename__ = 'roles'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64), unique=True)
+    users = db.relationship('User', backref='role', lazy='dynamic')
+
+    def __repr__(self):
+        return '<Role %r>' % self.name
+
+class User(db.Model):
+    """ User information """
+    __tablename__ = 'users'
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(30), unique=True, index=True)
+    fullname = db.Column(db.String(128), nullable=True)
+    twitter = db.Column(db.String(128), unique=True, nullable=True)
+    instagram = db.Column(db.String(128), unique=True, nullable=True)
+    # email = db.Column(db.String(128), unique=True)
+    # bio = db.Column(db.Text, nullable=True)
+    # profile_pic = db.Column(db.String(256))
+    # date_joined = db.Column(db.Date)
+    # password = 
+    # validated
+    # comments
+    # following
+    role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
+
+    def __repr__(self):
+        return '<User %r>' % self.username
+
 
 
 
@@ -174,9 +208,20 @@ def debug_forms():
         )
 
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def index():
     form = NameForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(username=form.name.data).first()
+        if user is None:
+            user = User(username=form.name.data)
+            db.session.add(user)
+            session['known'] = False
+        else:
+            session['known'] = True
+        session['name'] = form.name.data
+        form.name.data = ''
+        return redirect(url_for('index'))
 
     return render_template('ds/00-homepage.html',
         title = 'DS',
@@ -184,7 +229,9 @@ def index():
         page_id = 'homepage',
         data_page = 'homepage',
         current_time = datetime.utcnow(),
-        form = form
+        form = form,
+        name = session.get('name'),
+        known = session.get('known', False)
         )
 
 
@@ -312,6 +359,10 @@ def internal_server_error(e):
 
 
 
+
+def make_shell_context():
+    return dict(app=app, db=db, User=User, Role=Role)
+manager.add_command("shell", Shell(make_context=make_shell_context))
 
 
 if __name__ == '__main__':
