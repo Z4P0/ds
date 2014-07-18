@@ -1,92 +1,14 @@
-import os
-from threading import Thread
 from datetime import datetime
-from flask import Flask, render_template, session, redirect, url_for, flash
-from flask.ext.script import Manager, Shell
-from flask.ext.moment import Moment
-from forms import NameForm, LoginForm, RegisterForm, ChangeEmailForm, ResetPasswordForm, CommentForm, FollowForm, SearchForm, ContactForm, ProfileForm, BookmarkForm, SubscribeForm, ChangePasswordForm
-from flask_wtf.csrf import CsrfProtect
-from flask.ext.sqlalchemy import SQLAlchemy
-from flask.ext.migrate import Migrate, MigrateCommand
-from flask.ext.mail import Mail, Message
-
-
-basedir = os.path.abspath(os.path.dirname(__file__))
-
-app = Flask(__name__)
-app.config['SECRET_KEY'] = 'development sceret key fsd'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////' + os.path.join(basedir, 'data.sqlite')
-app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
-app.config['MAIL_SERVER'] = 'smtp.googlemail.com'
-app.config['MAIL_PORT'] = 587
-app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME')
-app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')
-app.config['FLASKY_MAIL_SUBJECT_PREFIX'] = 'DS | '
-app.config['FLASKY_MAIL_SENDER'] = 'DS Admin <ds.admin@dohertysoccer.com>'
-app.config['FLASKY_ADMIN'] = os.environ.get('ADMIN')
-
-manager = Manager(app)
-moment = Moment(app)
-csrf = CsrfProtect(app)
-db = SQLAlchemy(app)
-migrate = Migrate(app, db)
-mail = Mail(app)
+from flask import render_template, session, redirect, url_for, current_app
+from .. import db
+from ..models import User
+from ..email import send_email
+from . import main
+from .forms import NameForm, LoginForm, RegisterForm, ChangeEmailForm, ResetPasswordForm, CommentForm, FollowForm, SearchForm, ContactForm, ProfileForm, BookmarkForm, SubscribeForm, ChangePasswordForm
 
 
 
-
-
-class Role(db.Model):
-    """ Users can be admins, guests-posts, or regular """
-    __tablename__ = 'roles'
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(64), unique=True)
-    users = db.relationship('User', backref='role', lazy='dynamic')
-
-    def __repr__(self):
-        return '<Role %r>' % self.name
-
-class User(db.Model):
-    """ User information """
-    __tablename__ = 'users'
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(30), unique=True, index=True)
-    fullname = db.Column(db.String(128), nullable=True)
-    twitter = db.Column(db.String(128), unique=True, nullable=True)
-    instagram = db.Column(db.String(128), unique=True, nullable=True)
-    # email = db.Column(db.String(128), unique=True)
-    # bio = db.Column(db.Text, nullable=True)
-    # profile_pic = db.Column(db.String(256))
-    # date_joined = db.Column(db.Date)
-    # password = 
-    # validated
-    # comments
-    # following
-    role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
-
-    def __repr__(self):
-        return '<User %r>' % self.username
-
-
-
-def send_async_email(app, msg):
-    with app.app_context():
-        mail.send(msg)
-
-def send_email(to, subject, template, **kwargs):
-    msg = Message(app.config['FLASKY_MAIL_SUBJECT_PREFIX'] + subject,
-        sender=app.config['FLASKY_MAIL_SENDER'], recipients=[to])
-    msg.body = render_template(template + '.txt', **kwargs)
-    msg.html = render_template(template + '.html', **kwargs)
-    thr = Thread(target=send_async_email, args=[app, msg])
-    thr.start()
-    return thr
-
-
-
-
-@app.route('/', methods=['GET', 'POST'])
+@main.route('/', methods=['GET', 'POST'])
 def index():
     form = NameForm()
     if form.validate_on_submit():
@@ -95,13 +17,13 @@ def index():
             user = User(username=form.name.data)
             db.session.add(user)
             session['known'] = False
-            if app.config['FLASKY_ADMIN']:
-                send_email(app.config['FLASKY_ADMIN'], 'New User',
+            if current_app.config['FLASKY_ADMIN']:
+                send_email(current_app.config['FLASKY_ADMIN'], 'New User',
                     'email/new-user', user=user)
         else:
             session['known'] = True
         session['name'] = form.name.data
-        return redirect(url_for('index'))
+        return redirect(url_for('.index'))
 
     return render_template('ds/00-homepage.html',
         title = 'DS',
@@ -116,12 +38,20 @@ def index():
 
 
 
-@csrf.error_handler
-def csrf_error(reason):
-    return render_template('csrf_error.html', reason=reason), 400
+
+# about
+@main.route('/about/')
+def about_ds():
+    return 'Started in edgars room 4 years ago now'
+
+
+
+
+
+
 
 # forms debug page
-@app.route('/forms-test/', methods=['GET', 'POST'])
+@main.route('/forms-test/', methods=['GET', 'POST'])
 def debug_name_form():
     # pretty much all the info we can store on people..
     name_form = NameForm()
@@ -140,7 +70,7 @@ def debug_name_form():
 
 
 # forms debug page
-@app.route('/forms/', methods=['GET', 'POST'])
+@main.route('/forms/', methods=['GET', 'POST'])
 def debug_forms():
 
     name_form = NameForm()
@@ -266,137 +196,3 @@ def debug_forms():
         bio = session.get('bio'),
         picture = session.get('picture')
         )
-
-
-# users
-@app.route('/u/<user>')
-def view_profile(user):
-    return render_template('ds/03-profile.html',
-        title = user,
-        description = 'Profile for user',
-        data_page = 'profile',
-        username = user
-        )
-
-
-
-
-
-
-# articles
-@app.route('/articles/')
-def articles_index():
-    return 'all articles'
-
-@app.route('/articles/<slug>')
-def read_article(slug):
-    return 'article: %s' % slug
-
-
-
-
-# cups
-@app.route('/cups/')
-def cups_index():
-    return 'all cups in the CONCACAF'
-
-@app.route('/cups/<cup>')
-def show_cup(cup):
-    return 'all about the %s' % cup
-
-
-
-
-# leagues
-@app.route('/leagues/')
-@app.route('/ligas/')
-def leagues_index():
-    return 'all leagues in the CONCACAF'
-
-@app.route('/leagues/<league>')
-@app.route('/ligas/<league>')
-def show_league(league):
-    return 'all about %s' % league
-
-
-
-
-# teams
-@app.route('/teams/')
-def teams_index():
-    return 'all teams in the CONCACAF'
-
-@app.route('/teams/<team>')
-def show_team(team):
-    return 'all about %s' % team
-
-
-
-
-# players
-@app.route('/players/')
-def players_index():
-    return 'all players in the CONCACAF'
-
-@app.route('/players/<player>')
-def show_player(player):
-    return 'all about %s' % player
-
-
-
-
-# managers
-@app.route('/managers/')
-def managers_index():
-    return 'all managers in the CONCACAF'
-
-@app.route('/managers/<manager>')
-def show_manager(manager):
-    return 'all about %s' % manager
-
-
-
-
-# settings
-@app.route('/settings/')
-def change_settings():
-    return 'cahnge site settings for user'
-
-
-
-
-# search
-@app.route('/search/')
-def search_ds():
-    return 'Search'
-
-
-
-# about
-@app.route('/about/')
-def about_ds():
-    return 'Started in edgars room 4 years ago now'
-
-
-
-
-@app.errorhandler(404)
-def page_not_found(e):
-    return render_template('404.html'), 404
-
-
-@app.errorhandler(500)
-def internal_server_error(e):
-    return render_template('500.html'), 500
-
-
-
-
-def make_shell_context():
-    return dict(app=app, db=db, User=User, Role=Role)
-manager.add_command('shell', Shell(make_context=make_shell_context))
-manager.add_command('db', MigrateCommand)
-
-
-if __name__ == '__main__':
-    manager.run()
