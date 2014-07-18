@@ -2,12 +2,13 @@ import os
 from datetime import datetime
 from flask import Flask, render_template, session, redirect, url_for, flash
 from flask.ext.script import Manager, Shell
-from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.moment import Moment
-from flask_wtf.csrf import CsrfProtect
-from flask.ext.migrate import Migrate, MigrateCommand
-
 from forms import NameForm, LoginForm, RegisterForm, ChangeEmailForm, ResetPasswordForm, CommentForm, FollowForm, SearchForm, ContactForm, ProfileForm, BookmarkForm, SubscribeForm, ChangePasswordForm
+from flask_wtf.csrf import CsrfProtect
+from flask.ext.sqlalchemy import SQLAlchemy
+from flask.ext.migrate import Migrate, MigrateCommand
+from flask.ext.mail import Mail, Message
+
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -15,12 +16,23 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'development sceret key fsd'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////' + os.path.join(basedir, 'data.sqlite')
 app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
+app.config['MAIL_SERVER'] = 'smtp.googlemail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME')
+app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')
+app.config['FLASKY_MAIL_SUBJECT_PREFIX'] = '(DS)'
+app.config['FLASKY_MAIL_SENDER'] = 'DS Admin <ds.admin@dohertysoccer.com>'
+app.config['FLASKY_ADMIN'] = os.environ.get('ADMIN')
 
-db = SQLAlchemy(app)
-migrate = Migrate(app, db)
-csrf = CsrfProtect(app)
 manager = Manager(app)
 moment = Moment(app)
+csrf = CsrfProtect(app)
+db = SQLAlchemy(app)
+migrate = Migrate(app, db)
+mail = Mail(app)
+
+
 
 
 
@@ -55,6 +67,46 @@ class User(db.Model):
     def __repr__(self):
         return '<User %r>' % self.username
 
+
+
+
+
+def send_email(to, subject, template, **kwargs):
+    msg = Message(app.config['FLASKY_MAIL_SUBJECT_PREFIX'] + ' ' + subject,
+        sender=app.config['FLASKY_MAIL_SENDER'], recipients=[to])
+    msg.body = render_template(template + '.txt', **kwargs)
+    msg.html = render_template(template + '.html', **kwargs)
+    mail.send(msg)
+
+
+
+@app.route('/', methods=['GET', 'POST'])
+def index():
+    form = NameForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(username=form.name.data).first()
+        if user is None:
+            user = User(username=form.name.data)
+            db.session.add(user)
+            session['known'] = False
+            # if app.config['FLASKY_ADMIN']:
+            #     send_email(app.config['FLASKY_ADMIN'], 'New User',
+            #         'mail/new_user', user=user)
+        else:
+            session['known'] = True
+        session['name'] = form.name.data
+        return redirect(url_for('index'))
+
+    return render_template('ds/00-homepage.html',
+        title = 'DS',
+        description = 'Your source for the CONCACAF',
+        page_id = 'homepage',
+        data_page = 'homepage',
+        current_time = datetime.utcnow(),
+        form = form,
+        name = session.get('name'),
+        known = session.get('known', False)
+        )
 
 
 
@@ -208,34 +260,6 @@ def debug_forms():
         bio = session.get('bio'),
         picture = session.get('picture')
         )
-
-
-@app.route('/', methods=['GET', 'POST'])
-def index():
-    form = NameForm()
-    if form.validate_on_submit():
-        user = User.query.filter_by(username=form.name.data).first()
-        if user is None:
-            user = User(username=form.name.data)
-            db.session.add(user)
-            session['known'] = False
-        else:
-            session['known'] = True
-        session['name'] = form.name.data
-        form.name.data = ''
-        return redirect(url_for('index'))
-
-    return render_template('ds/00-homepage.html',
-        title = 'DS',
-        description = 'Your source for the CONCACAF',
-        page_id = 'homepage',
-        data_page = 'homepage',
-        current_time = datetime.utcnow(),
-        form = form,
-        name = session.get('name'),
-        known = session.get('known', False)
-        )
-
 
 
 # users
