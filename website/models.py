@@ -123,6 +123,67 @@ class Team(db.Model):
     league_id = db.Column(db.Integer, db.ForeignKey('leagues.id'))
     # other_leagues =
     twitter = db.Column(db.String(128), unique=True, nullable=True)
+    # players - a team has many players
+    # manager_id = db.Column(db.Integer, db.ForeignKey('managers.id'))
 
     def __repr__(self):
         return '<Team %r>' % self.name
+
+
+class Player(db.Model):
+    """ players """
+    __tablename__ = 'players'
+    id = db.Column(db.Integer, primary_key=True)
+    common_name = db.Column(db.String(64))
+    fullname = db.Column(db.String(64))
+    slug = db.Column(db.String(64), unique=True)
+    # team - current team
+    # has many past teams
+    bio = db.Column(db.Text)
+    born = db.Column(db.Date)
+    # nationality_id = db.Column(db.Integer, db.ForeignKey('countries.id'))
+
+    def __repr__(self):
+        return '<Player %r>' % self.common_name
+
+
+class Manager(db.Model):
+    """ Managers in the CONCACAF """
+    __tablename__ = 'managers'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64))
+    slug = db.Column(db.String(64), unique=True)
+    # is working?
+    active = db.Column(db.Boolean)
+    # team_id = db.Column(db.Integer, db.ForeignKey('teams.id'))
+
+    def __repr__(self):
+        return '<Manager %r>' % self.name
+
+
+class Association(db.Model):
+    """ Associations in the CONCACAF """
+    __tablename__ = 'associations'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64))
+    slug = db.Column(db.String(64), unique=True)
+    # belong to one country..?
+    # country_id = db.Column(db.Integer, db.ForeignKey('countries.id'))
+
+    def __repr__(self):
+        return '<Association %r>' % self.name
+
+
+
+class Country(db.Model):
+    """ A Country - a footballing nation """
+    __tablename__ = 'countries'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64), unique=True)
+    slug = db.Column(db.String(64), unique=True)
+    # one governing body
+    # fa_id = db.Column(db.Integer, db.ForeignKey('associations.id'))
+    # many leagues in the country, but the FA is in charge of that
+
+    def __repr__(self):
+        return '<Country %r>' % self.name
