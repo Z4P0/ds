@@ -1,5 +1,10 @@
-To run the site:
+To run the site locally:
 $ python manage.py runserver
+
+On a WiFi network:
+python hello.py runserver --host 0.0.0.0
+
+
 
 Dev setup:
 export MAIL_USERNAME=yourusername@gmail.com
@@ -9,5 +14,9 @@ export DS_ADMIN=other@gmail.com
 export SECRET_KEY='secret_keyLOLOL'
 export FLASK_CONFIG='development'
 
+Initial setup:
 
-python hello.py runserver --host 0.0.0.0
+- Create user roles
+$ ./manage.py shell
+>>> Role.insert_roles()
+
