@@ -38,74 +38,6 @@ def create_app(config_name):
             username = user
             )
 
-
-
-
-
-
-
-    # cups
-    @app.route('/cups/')
-    def cups_index():
-        return 'all cups in the CONCACAF'
-
-    @app.route('/cups/<cup>')
-    def show_cup(cup):
-        return 'all about the %s' % cup
-
-
-
-
-    # leagues
-    @app.route('/leagues/')
-    @app.route('/ligas/')
-    def leagues_index():
-        return 'all leagues in the CONCACAF'
-
-    @app.route('/leagues/<league>')
-    @app.route('/ligas/<league>')
-    def show_league(league):
-        return 'all about %s' % league
-
-
-
-
-    # teams
-    @app.route('/teams/')
-    def teams_index():
-        return 'all teams in the CONCACAF'
-
-    @app.route('/teams/<team>')
-    def show_team(team):
-        return 'all about %s' % team
-
-
-
-
-    # players
-    @app.route('/players/')
-    def players_index():
-        return 'all players in the CONCACAF'
-
-    @app.route('/players/<player>')
-    def show_player(player):
-        return 'all about %s' % player
-
-
-
-
-    # managers
-    @app.route('/managers/')
-    def managers_index():
-        return 'all managers in the CONCACAF'
-
-    @app.route('/managers/<manager>')
-    def show_manager(manager):
-        return 'all about %s' % manager
-
-
-
-
     # settings
     @app.route('/settings/')
     def change_settings():
@@ -125,8 +57,19 @@ def create_app(config_name):
     from main import main as main_blueprint
     from auth import auth as auth_blueprint
     from articles import articles as articles_blueprint
+    from cups import cups as cups_blueprint
+    from leagues import leagues as leagues_blueprint
+    from teams import teams as teams_blueprint
+    from players import players as players_blueprint
+    from managers import managers as managers_blueprint
+
     app.register_blueprint(main_blueprint)
     app.register_blueprint(auth_blueprint)
     app.register_blueprint(articles_blueprint, url_prefix='/articles')
+    app.register_blueprint(cups_blueprint, url_prefix='/cups')
+    app.register_blueprint(leagues_blueprint, url_prefix='/leagues')
+    app.register_blueprint(teams_blueprint, url_prefix='/teams')
+    app.register_blueprint(players_blueprint, url_prefix='/players')
+    app.register_blueprint(managers_blueprint, url_prefix='/managers')
 
     return app
