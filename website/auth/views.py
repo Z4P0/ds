@@ -1,4 +1,4 @@
-from flask import render_template, redirect, request, url_for, flash
+from flask import render_template, redirect, request, url_for, flash, current_app
 from flask.ext.login import login_user, logout_user, login_required, current_user
 from . import auth
 from .. import db
@@ -59,6 +59,8 @@ def confirm(token):
         return redirect(url_for('main.index'))
     if current_user.confirm(token):
         flash('You have confirmed your account!')
+        send_email(current_app.config['DS_ADMIN'], 'New User',
+            'email/new-user', user=current_user)
     else:
         flash('The confirmation link is invalid or expired')
     return redirect(url_for('main.index'))
