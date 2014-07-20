@@ -7,21 +7,24 @@
 
 
 {% block content %}
-<h2>Latest Articles</h2>
-<img src="/static/img/freedom.jpg">
+<div class="wrapper">
 
-<h3>Hello {% if current_user.is_authenticated() %}{{ current_user.username }}{% else %}Stranger{% endif %}</h3>
-{% if not known %}
-<p>Nice to meet you</p>
-{% else %}
-<p>Good to see you again</p>
-{% endif %}
-<form method="post">
-	{{ form.hidden_tag() }}
-	{{ form.name.label }} {{ form.name() }}
-	{{ form.submit( )}}
-</form>
+  <h2>Latest Articles</h2>
+  <img src="/static/img/freedom.jpg">
 
-<p>Local date and tie is {{ moment(current_time).format('LLL') }}</p>
-<p>That was {{ moment(current_time).fromNow(refresh=True) }}</p>
+  <h3>Hello {% if current_user.is_authenticated() %}{{ current_user.username }}{% else %}Stranger{% endif %}</h3>
+  {% if not known %}
+  <p>Nice to meet you</p>
+  {% else %}
+  <p>Good to see you again</p>
+  {% endif %}
+  <form method="post">
+    {{ form.hidden_tag() }}
+    {{ form.name.label }} {{ form.name() }}
+    {{ form.submit( )}}
+  </form>
+
+  <p>Local date and tie is {{ moment(current_time).format('LLL') }}</p>
+  <p>That was {{ moment(current_time).fromNow(refresh=True) }}</p>
+</div>
 {% endblock %}

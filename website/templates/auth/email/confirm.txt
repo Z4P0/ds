@@ -1,0 +1,13 @@
+Hey {{ user.username }},
+
+Welcome to Doherty Soccer! We're stoked to have you join.
+
+To confirm your account please click on the following link:
+{{ url_for('auth.confirm', token=token, _external=True) }}
+
+- DS
+
+
+Doherty Soccer
+dohertysoccer.com
+@dohertysoccer

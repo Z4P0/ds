@@ -28,7 +28,7 @@
     <div class="flex-all">
       <span id="forgot-password"><a href="/forgotten-password">Forgot password?</a></span>
       <span>
-        <a href="/register">Register</a>
+        <a href="{{ url_for('auth.register') }}">Register</a>
         {{ form.submit() }}
     </div>
   </form>

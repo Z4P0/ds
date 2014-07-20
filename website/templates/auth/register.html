@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}{{ title }} | {% endblock %}
+{% block description %}{{description}}{% endblock %}
+{% block page_id %}{{page_id}}{% endblock %}
+{% block data_page %}{{data_page}}{% endblock %}
+{% block page_class %}{{page_class}}{% endblock %}
+
+{% block content %}
+<div id="register-form-wrapper" class="form-wrapper">
+  <form id="register-form" method="POST" class="form">
+    {{ form.hidden_tag() }}
+    <p>
+      <label>
+        <span>Username</span>
+        {{form.username()}}
+      </label>
+    </p>
+    <p>
+      <label>
+        <span>Email</span>
+        {{form.email()}}
+      </label>
+    </p>
+    <p id="register-p">
+      <label>
+        <span>Password</span>
+        {{form.password()}}
+      </label>
+    </p>
+    <p>
+      <label id="register-underline" class="label-underline">
+        <span id="register-confirm">Confirm</span>
+        {{form.password2()}}
+      </label>
+    </p>
+    <p id="terms-and-conditions" class="label-underline"><span>Terms &amp; Conditions</span>
+      <label>
+        {{form.agree_to_terms()}}
+        <small>I agree to the terms and conditions. More can be read <a href="#">here</a></small>
+      </label>
+    </p>
+
+    <div class="flex-all">
+      <span>{{form.submit()}}</span>
+    </div>
+  </form>
+</div>
+{% endblock %}

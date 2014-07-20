@@ -1,0 +1,15 @@
+<p>Hey <b>{{ user.username }}</b>,</p>
+
+<p>Welcome to Doherty Soccer! We're stoked to have you join.</p>
+
+<p>To confirm your account please click on the following link:<br/>
+<b>{{ url_for('auth.confirm', token=token, _external=True) }}</b></p>
+
+<p>- DS</p>
+
+
+<p>
+Doherty Soccer <br/>
+dohertysoccer.com <br/>
+@dohertysoccer
+</p>
