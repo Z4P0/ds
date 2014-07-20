@@ -7,7 +7,6 @@ from flask_wtf.csrf import CsrfProtect
 from config import config
 
 
-
 moment = Moment()
 csrf = CsrfProtect()
 db = SQLAlchemy()
@@ -24,6 +23,9 @@ def create_app(config_name):
     mail.init_app(app)
 
     # routes and error pages
+    @csrf.error_handler
+    def csrf_error(reason):
+        return render_template('csrf_error.html', reason=reason), 400
 
 
     # users
