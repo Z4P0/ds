@@ -43,17 +43,6 @@ def create_app(config_name):
 
 
 
-    # articles
-    @app.route('/articles/')
-    def articles_index():
-        return 'all articles'
-
-    @app.route('/articles/<slug>')
-    def read_article(slug):
-        return 'article: %s' % slug
-
-
-
 
     # cups
     @app.route('/cups/')
@@ -135,8 +124,9 @@ def create_app(config_name):
 
     from main import main as main_blueprint
     from auth import auth as auth_blueprint
+    from articles import articles as articles_blueprint
     app.register_blueprint(main_blueprint)
     app.register_blueprint(auth_blueprint)
-    # app.register_blueprint(auth_blueprint, url_prefix='/auth')
+    app.register_blueprint(articles_blueprint, url_prefix='/articles')
 
     return app

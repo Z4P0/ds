@@ -1,6 +1,41 @@
 from . import db
 from werkzeug.security import generate_password_hash, check_password_hash
 
+
+class Article(db.Model):
+    """ Articles """
+    __tablename__ = 'articles'
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(256))
+    slug = db.Column(db.String(256), unique=True)
+    content = db.Column(db.Text)
+    category_id = db.Column(db.Integer, db.ForeignKey('categories.id'))
+    post_date = db.Column(db.DateTime)
+    last_update = db.Column(db.DateTime, nullable=True)
+    # tags - an article can have many tags
+    # comments - an article can have many comments
+
+
+class Category(db.Model):
+    """ Articles categories """
+    __tablename__ = 'categories'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(128), unique=True)
+    slug = db.Column(db.String(128), unique=True)
+    posts = db.relationship('Article', backref='category', lazy='dynamic')
+
+
+class Tag(db.Model):
+    """ Articles tags """
+    __tablename__ = 'tags'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64), unique=True)
+    slug = db.Column(db.String(64), unique=True)
+    # posts = db.relationship('Article', backref='tags', lazy='dynamic')
+
+
+
+
 class Role(db.Model):
     """ Users can be admins, guests-posts, or regular """
     __tablename__ = 'roles'
