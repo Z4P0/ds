@@ -10,7 +10,7 @@
 <h2>Latest Articles</h2>
 <img src="/static/img/freedom.jpg">
 
-<h3>Hello {% if name %}{{ name }}{% else %}Stranger{% endif %}</h3>
+<h3>Hello {% if current_user.is_authenticated() %}{{ current_user.username }}{% else %}Stranger{% endif %}</h3>
 {% if not known %}
 <p>Nice to meet you</p>
 {% else %}

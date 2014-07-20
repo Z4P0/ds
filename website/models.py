@@ -1,6 +1,10 @@
-from . import db
+from . import db, login_manager
+from flask.ext.login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
 
 class Article(db.Model):
     """ Articles """
@@ -46,16 +50,16 @@ class Role(db.Model):
     def __repr__(self):
         return '<Role %r>' % self.name
 
-class User(db.Model):
+class User(UserMixin, db.Model):
     """ User information """
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(128), unique=True, index=True)
     username = db.Column(db.String(30), unique=True, index=True)
     password_hash = db.Column(db.String(128))
     fullname = db.Column(db.String(128), nullable=True)
     twitter = db.Column(db.String(128), unique=True, nullable=True)
     instagram = db.Column(db.String(128), unique=True, nullable=True)
-    # email = db.Column(db.String(128), unique=True)
     # bio = db.Column(db.Text, nullable=True)
     # profile_pic = db.Column(db.String(256))
     # date_joined = db.Column(db.Date)

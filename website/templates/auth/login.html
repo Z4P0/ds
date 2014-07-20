@@ -8,22 +8,28 @@
 
 {% block content %}
 <div id="login-form-wrapper" class="form-wrapper">
-  <form id="login-form" action="/u/" method="POST" class="form">
+  <form id="login-form" method="POST" class="form">
+    {{ form.hidden_tag() }}
     <p>
-      <label class="label-underline"><span>Username</span>
-        <input type="text" name="username">
+      <label class="label-underline">
+        <span>Email</span>
+        {{ form.email() }}
       </label>
     </p>
     <p>
-      <label><span>Password</span>
-        <input type="password" name="password">
+      <label>
+        <span>Password</span>
+        {{ form.password }}
       </label>
+    </p>
+    <p>
+      {{ form.remember_me.label }}{{ form.remember_me() }}
     </p>
     <div class="flex-all">
       <span id="forgot-password"><a href="/forgotten-password">Forgot password?</a></span>
       <span>
         <a href="/register">Register</a>
-        <input type="submit" value="Sign In"></span>
+        {{ form.submit() }}
     </div>
   </form>
 </div>
