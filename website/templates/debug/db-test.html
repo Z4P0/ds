@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}DB Debugging | {% endblock %}
+{% block description %}Debugging the database{% endblock %}
+{% block page_id %}db-debug{% endblock %}
+{% block data_page %}db-debug{% endblock %}
+
+
+{% block content %}
+<div class="wrapper">
+  <p>{{ user_test }}</p>
+  <p>{% if user %}{{user.username}}{% else %}--{%endif%}</p>
+  <hr>
+  <p>{{ league_test }}</p>
+  <p>{% if league %}{{league.name}}{% else %}--{%endif%}</p>
+  <hr>
+</div>
+{% endblock %}

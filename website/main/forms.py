@@ -2,7 +2,10 @@ from flask.ext.wtf import Form
 from wtforms import StringField, TextAreaField, PasswordField, FileField, SubmitField, BooleanField
 from wtforms.validators import Required, Email, EqualTo, Length, Optional, URL
 
-
+#
+# SPACES SHOULD NOT BED ALLOWED IN USERNAMES
+# UNDERSCORES AND HYPENS ARE OK
+#
 
 class NameForm(Form):
     """What is your name?"""
@@ -58,7 +61,7 @@ class ResetPasswordForm(Form):
     submit = SubmitField('Send email')
 
 
-    
+
 # comment form
 class CommentForm(Form):
     """ Make a comment on an article """

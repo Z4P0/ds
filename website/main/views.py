@@ -1,12 +1,38 @@
 from datetime import datetime
 from flask import render_template, session, redirect, url_for, current_app
 from .. import db
-from ..models import User
+from ..models import User, Role, Cup, League, Team
 from ..email import send_email
 from . import main
 from .forms import NameForm, LoginForm, RegisterForm, ChangeEmailForm, ResetPasswordForm, CommentForm, FollowForm, SearchForm, ContactForm, ProfileForm, BookmarkForm, SubscribeForm, ChangePasswordForm
 
 
+@main.route('/db-test/')
+def db_test():
+    test = 'test'
+
+    user = User.query.filter_by(username=test).first()
+    if user is None:
+        test_user = User(username=test)
+        db.session.add(test_user)
+        db.session.commit()
+        user_test = 'No test user was found. One was created.'
+    else:
+        user_test = 'PASS | username found'
+
+    league = League.query.filter_by(name=test).first()
+    if league is None:
+        league_test = 'No test league'
+    else:
+        league_test = 'PASS | test found'
+
+
+    return render_template('debug/db-test.html',
+        user = user,
+        user_test = user_test,
+        league = league,
+        league_test = league_test
+        )
 
 @main.route('/', methods=['GET', 'POST'])
 def index():
@@ -16,6 +42,7 @@ def index():
         if user is None:
             user = User(username=form.name.data)
             db.session.add(user)
+            db.session.commit()
             session['known'] = False
             if current_app.config['DS_ADMIN']:
                 send_email(current_app.config['DS_ADMIN'], 'New User',
