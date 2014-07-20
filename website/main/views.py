@@ -16,7 +16,7 @@ def db_test():
     if user is None:
         test_user = User(username=test)
         db.session.add(test_user)
-        db.session.commit()
+        # db.session.commit()
         user_test = 'No test user was found. One was created.'
     else:
         user_test = 'PASS | username found'
@@ -43,7 +43,7 @@ def index():
         if user is None:
             user = User(username=form.name.data)
             db.session.add(user)
-            db.session.commit()
+            # db.session.commit()
             session['known'] = False
             if current_app.config['DS_ADMIN']:
                 send_email(current_app.config['DS_ADMIN'], 'New User',
