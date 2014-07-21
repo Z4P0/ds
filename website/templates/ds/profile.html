@@ -22,6 +22,18 @@
     </div>
   </header>
   <div id="user-dashboard" class="flex-3">
+    <section id="user-overview" class="user-section">
+      <h3 class="t7 flex-1">Overview</h3>
+      <div class="flex-4">
+        {% if user.name %}<p>{{user.name}}</p>{%endif%}
+        {% if user.location %}<p>From <a href="http://maps.google.com?q={{ user.location }}">{{ user.location }}</a> </p>{% endif %}
+        {% if current_user.is_administrator() %}
+        <p><a href="mailto:{{user.email}}">{{user.email}}</a></p>
+        {% endif %}
+        {% if user.bio %}<p>{{user.bio}}</p>{% endif %}
+        <p>Last seen: {{user.last_seen}}</p>
+      </div>
+    </section>
     <section id="user-bookmarks" class="user-section">
       <h3 class="t7 flex-1">Bookmarked</h3>
       <!-- <p class="flex-4">No bookmarks yet</p> -->
@@ -205,7 +217,7 @@
             <h4 class="t6">Delete profile</h4>
           </li>
         </ul>
-        <p id="member-since">Member since July 27, 2011</p>
+        <p id="member-since">Member since {{user.member_since}}</p>
       </div>
     </section>
   </div>
