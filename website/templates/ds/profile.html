@@ -1,0 +1,213 @@
+{% extends "base.html" %}
+
+{% block title %}{{ user.username }} | {% endblock %}
+{% block description %}{{ user.username}}'s profile | {% endblock %}
+{% block page_id %}profile{% endblock %}
+
+{% block content %}
+<section id="user-profile">
+  <header id="user-header" class="flex-1">
+    <h2 id="username">{{ user.username }}</h2>
+    <div class="flex">
+      <figure id="user-profile-image" class="flex-3"><img src="/static/img/users/zapo.jpg"></figure>
+      <nav id="user-nav" class="flex-2">
+        <ul id="user-nav-list">
+          <li><a href="#user-bookmarks">Bookmarks</a></li>
+          <li><a href="#user-comments">Comments</a></li>
+          <li><a href="#user-subscriptions">Subscriptions</a></li>
+          <li><a href="#user-settings">Settings</a></li>
+        </ul>
+        <a id="logout" href="{{ url_for('auth.logout') }}">Log out</a>
+      </nav>
+    </div>
+  </header>
+  <div id="user-dashboard" class="flex-3">
+    <section id="user-bookmarks" class="user-section">
+      <h3 class="t7 flex-1">Bookmarked</h3>
+      <!-- <p class="flex-4">No bookmarks yet</p> -->
+      <ul id="bookmarked-articles-list" class="flex-4 user-dash-list">
+        <li>
+          <article class="article-preview">
+            <h2 class="article-title"><a href="01-article-page.html">Tottenham Hotspur and US U17 Team Highlight 2013 IMG Invitational Tournament</a></h2><span class="article-meta">Posted in <a href="01-article-category-series.html" class="article-category">Soccer In America</a><span class="posted-on">December 17, 2013</span></span>
+          </article>
+        </li>
+        <li>
+          <article class="article-preview">
+            <h2 class="article-title"><a href="01-article-page.html">Leones Negros is the Liga Ascenso MX Apertura 2013 Champion!</a></h2><span class="article-meta">Posted in <a href="01-article-category-series.html" class="article-category">Ascenso MX</a><span class="posted-on">December 16, 2013</span></span>
+          </article>
+        </li>
+        <li>
+          <article class="article-preview">
+            <h2 class="article-title"><a href="01-article-page.html">Mexico U-17 Coasts Past Argentina 3-0 En Route to the Final</a></h2><span class="article-meta">Posted in <a href="01-article-category-series.html" class="article-category">El Tri</a><span class="posted-on">November 5, 2013</span></span>
+          </article>
+        </li>
+        <li>
+          <article class="article-preview">
+            <h2 class="article-title"><a href="01-article-page.html">Raúl “Potro” Gutiérrez sent out the same starting line-up from the victory over Italy to face Brazil.</a></h2><span class="article-meta">Posted in <a href="01-article-category-series.html" class="article-category">El Tri</a><span class="posted-on">November 2, 2013</span></span>
+          </article>
+        </li>
+        <li>
+          <article class="article-preview">
+            <h2 class="article-title"><a href="01-article-page.html">Mexico’s Shaky Start in the U-17 World Cup</a></h2><span class="article-meta">Posted in <a href="01-article-category-series.html" class="article-category">El Tri</a><span class="posted-on">October 29, 2013</span></span>
+          </article>
+        </li>
+      </ul>
+    </section>
+    <section id="user-comments" class="user-section">
+      <h3 class="t7 flex-1">Comments</h3>
+      <!-- <p class="flex-4">No comments yet</p> -->
+
+      <ul id="user-comment-list" class="flex-4">
+        <li>
+          <article class="user-comment">
+            <h4 class="t6">If she has a car you better ask her if she has ever checked the oil....</h4>
+            <p class="comment-meta">Commment on article <a href="#">"Mexico’s Shaky Start in the U-17 World Cup" </a>at October 29, 2013 at 4:04 pm</p>
+            <ul class="comment-actions inline">
+              <li>+20 [+34/-14]</li>
+              <li>Edit</li>
+              <li>Delete</li>
+            </ul>
+          </article>
+        </li>
+        <li>
+          <article class="user-comment">
+            <h4 class="t6">Chelsea: Hey United, can we have Rooney? United: No -Fast forward 5 months- United: Hey Chelsea can we have Mata? Chelsea: Oh sure mate! here, let me just bend over for you...</h4>
+            <p class="comment-meta">Commment on article <a href="#">"Tottenham Hotspur and US U17 Team Highlight 2013 IMG Invitational Tournament" </a>at June 9, 2012 at 6:44 pm</p>
+            <ul class="comment-actions inline">
+              <li>+10 [+14/-4]</li>
+              <li>Edit</li>
+              <li>Delete</li>
+            </ul>
+            <section class="comment-replies">
+              <h5 class="t7">Replies</h5>
+              <ul class="user-dash-comment-replies-list">
+                <li>
+                  <article class="user-dash-comment-reply flex">
+                    <figure class="user-profile-thumbnail flex-1"><img src="http://lorempixel.com/40/40" alt="dummy" width="40" height="40"></figure>
+                    <div class="flex-3">
+                      <h6 class="t5"> <a href="#">thaighst</a>And thus, one of the world's greatest mysteries was solved</h6>
+                      <p class="comment-date">January 6 at 12:50pm</p>
+                    </div>
+                  </article>
+                </li>
+              </ul>
+            </section>
+          </article>
+        </li>
+        <li>
+          <article class="user-comment">
+            <h4 class="t6">Why are so many people compelled to put a "the" before Ukraine? Do you also say "the Canada" or "the Spain"?</h4>
+            <p class="comment-meta">Commment on article <a href="#">"Leones Negros is the Liga Ascenso MX Apertura 2013 Champion!" </a>at January 23, 2014 at 8:04 am            </p>
+            <ul class="comment-actions inline">
+              <li>+10 [+14/-4]</li>
+              <li>Edit</li>
+              <li>Delete</li>
+            </ul>
+            <section class="comment-replies">
+              <h5 class="t7">Replies</h5>
+              <ul class="user-dash-comment-replies-list">
+                <li>
+                  <article class="user-dash-comment-reply flex">
+                    <figure class="user-profile-thumbnail flex-1"><img src="http://lorempixel.com/40/40" alt="dummy" width="40" height="40"></figure>
+                    <div class="flex-3">
+                      <h6 class="t5"><a href="#">robo_house__</a>can't wait until the writers find a way to somehow bring him back! i'm sure it will be natural and in no way forced</h6>
+                      <p class="comment-date">37 minutes ago</p>
+                    </div>
+                  </article>
+                </li>
+              </ul>
+            </section>
+          </article>
+        </li>
+      </ul>
+    </section>
+    <section id="user-subscriptions" class="user-section">
+      <h3 class="t7 flex-1">Subscriptions</h3>
+      <!-- <p class="flex-4">No subscriptions yet</p> -->
+        <ul id="user-subscriptions-list" class="flex-4 user-dash-list">
+          <li>
+            <h4 class="t6"><a href="#">El Tri</a></h4><span> <b>(2) </b>15 total</span><i class="fi-x"></i>
+          </li>
+          <li>
+            <h4 class="t6"><a href="#">Mexico</a></h4><span> <b>(1) </b>23 total</span><i class="fi-x"></i>
+          </li>
+          <li>
+            <h4 class="t6"><a href="#">Youth</a></h4><span>8 total<i class="fi-x"></i></span>
+          </li>
+          <li>
+            <h4 class="t6"><a href="#">NASL</a></h4><span>14 total<i class="fi-x"></i></span>
+          </li>
+          <li>
+            <h4 class="t6"><a href="#">USL-Pro</a></h4><span> <b>(2) </b>16 total</span><i class="fi-x"></i>
+          </li>
+          <li>
+            <h4 class="t6"><a href="#">Soccer in America</a></h4><span>3 total<i class="fi-x"></i></span>
+          </li>
+        </ul>
+    </section>
+    <section id="user-settings" class="user-section">
+      <h3 class="t7 flex-1">Settings</h3>
+      <div class="flex-4">
+        <ul id="user-settings-list" class="user-dash-list">
+          <li>
+            <h4 class="t6">Language</h4>
+            <div class="setting-option">
+              <select>
+                <option value="english" selected="selected">English</option>
+                <option value="español">Español</option>
+              </select>
+            </div>
+          </li>
+          <li>
+            <h4 class="t6">Font size</h4>
+            <div class="setting-option">
+              <select>
+                <option value="small">Small</option>
+                <option value="regular" selected="selected">Regular</option>
+                <option value="large">Large</option>
+              </select>
+            </div>
+          </li>
+          <li>
+            <h4 class="t6">Email frequency</h4>
+            <div class="setting-option">
+              <select>
+                <option value="as-published" selected="selected">As Published</option>
+                <option value="1-week">1/week</option>
+                <option value="1-month">1/month</option>
+                <option value="no-emails">None</option>
+              </select>
+            </div>
+          </li>
+          <li>
+            <label>
+              <h4 class="t6">Change password</h4>
+              <input type="password">
+            </label>
+          </li>
+          <li>
+            <label>
+              <h4 class="t6">Change email</h4>
+              <input type="email">
+            </label>
+          </li>
+          <li>
+            <h4 class="t6">Change profile picture</h4>
+          </li>
+          <li id="beta-test-li">
+            <label>
+              <h4 class="t6">Beta test</h4>
+              <input type="checkbox">
+            </label>
+            <p>You will see unique article designs and interactions. This is essentially a playground for us to play with editorial design on the web. Have you ever played Portal? Kinda like that but without the risk of death</p>
+          </li>
+          <li>
+            <h4 class="t6">Delete profile</h4>
+          </li>
+        </ul>
+        <p id="member-since">Member since July 27, 2011</p>
+      </div>
+    </section>
+  </div>
+</section>
+{% endblock %}

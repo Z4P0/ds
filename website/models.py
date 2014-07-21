@@ -1,3 +1,4 @@
+from datetime import datetime
 from flask import current_app
 from . import db, login_manager
 from flask.ext.login import UserMixin, AnonymousUserMixin
@@ -106,9 +107,11 @@ class User(UserMixin, db.Model):
     fullname = db.Column(db.String(128), nullable=True)
     twitter = db.Column(db.String(128), unique=True, nullable=True)
     instagram = db.Column(db.String(128), unique=True, nullable=True)
-    # bio = db.Column(db.Text, nullable=True)
+    location = db.Column(db.String(64))
+    bio = db.Column(db.Text, nullable=True)
+    member_since = db.Column(db.DateTime, default=datetime.utcnow)
+    last_seen = db.Column(db.DateTime, default=datetime.utcnow)
     # profile_pic = db.Column(db.String(256))
-    # date_joined = db.Column(db.Date)
     # comments
     # following
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
@@ -147,6 +150,9 @@ class User(UserMixin, db.Model):
     def is_administrator(self):
         return self.can(Permission.ADMINISTER)
 
+    def ping(self):
+        self.last_seen = datetime.utcnow()
+        db.session.add(self)
 
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)

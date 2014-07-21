@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}{{ title }} | {% endblock %}
+{% block description %}{{description}}{% endblock %}
+{% block page_id %}{{page_id}}{% endblock %}
+{% block data_page %}{{data_page}}{% endblock %}
+
+
+{% block content %}
+<div class="wrapper">
+
+  <h2>Latest Articles</h2>
+  <img src="/static/img/freedom.jpg">
+
+  <h3>Hello {% if current_user.is_authenticated() %}{{ current_user.username }}{% else %}Stranger{% endif %}</h3>
+
+</div>
+{% endblock %}
