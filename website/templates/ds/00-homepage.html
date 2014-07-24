@@ -7,6 +7,36 @@
 
 
 {% block content %}
+<div id="latest-articles">
+  <section id="latest-post">
+    <h2 class="t7">Latest Post</h2>
+    <article class="article-post">
+      <h3 class="article-title"><a href="{% url 'article:article' latest_post.slug %}">{{ latest_post.title }}</a></h3>
+      <span class="article-meta">Posted in <a href="{% url 'article:article_category' latest_post.category|slugify %}" class="article-category">{{ latest_post.category }}</a><span class="posted-on">{{ latest_post.published_date|date:"F j, Y" }}</span></span>
+      {{ latest_post.preview|safe }}
+      <a href="{% url 'article:article' latest_post.slug %}" class="read-article">Continue reading</a>
+    </article>
+  </section>
+
+
+  <section id="recent-posts">
+    <h2 class="t7">Recent Posts</h2>
+    <ul class="recent-articles">
+      {% for post in recent_posts %}
+      <li>
+        <article class="article-preview">
+          <h2 class="article-title"><a href="{% url 'article:article' post.slug %}">{{ post.title }}</a></h2>
+          <span class="article-meta">Posted in <a href="{% url 'article:article_category' post.category|slugify %}" class="article-category">{{post.category}}</a><span class="posted-on">{{ post.published_date|date:"F j, Y" }}</span></span>
+          <p><a href="{% url 'article:article' post.slug %}" class="read-more">Read more</a></p>
+        </article>
+      </li>
+      {% endfor %}
+    </ul>
+    <a href="{% url 'article:all_articles' %}">View all posts</a>
+  </section>
+</div>
+
+
 <div class="wrapper">
 
   <h2>Latest Articles</h2>

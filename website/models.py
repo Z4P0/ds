@@ -79,6 +79,7 @@ class User(UserMixin, db.Model):
     # comments
     # following
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
+    posts = db.relationship('Article', backref='author', lazy='dynamic')
 
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
@@ -176,8 +177,9 @@ class Article(db.Model):
     slug = db.Column(db.String(256), unique=True)
     content = db.Column(db.Text)
     category_id = db.Column(db.Integer, db.ForeignKey('categories.id'))
-    post_date = db.Column(db.DateTime)
+    post_date = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     last_update = db.Column(db.DateTime, nullable=True)
+    author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     # tags - an article can have many tags
     # comments - an article can have many comments
 

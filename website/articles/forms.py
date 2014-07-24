@@ -3,6 +3,13 @@ from wtforms import StringField, TextAreaField, PasswordField, FileField, Submit
 from wtforms.validators import Required, Email, EqualTo, Length, Optional, URL
 
 
+
+class ArticleForm(Form):
+    """ For posting articles """
+    body = TextAreaField('Drafting Page', validators=[Required()])
+    submit = SubmitField('Submit')
+
+
 # comment form
 class CommentForm(Form):
     """ Make a comment on an article """

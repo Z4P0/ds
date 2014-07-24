@@ -8,11 +8,32 @@
 
 {% block content %}
 <div class="wrapper">
+<div id="latest-articles">
 
-  <h2>Latest Articles</h2>
-  <img src="/static/img/freedom.jpg">
+<section id="recent-posts">
+  <h2 class="t7">Recent Posts</h2>
+  <ul class="recent-articles">
+    {% for post in recent_posts %}
+    <li>
+      <article class="article-preview">
+        <h2 class="article-title"><a href="#post.slug">{{ post.slug }}</a></h2>
+        <span class="article-meta">Posted in <a href="#post.category" class="article-category">{{post.category}}</a><span class="posted-on">{{ post.post_date }}</span></span>
+        <p>{{post.content}}</p>
+        <p><a href="#post.slug" class="read-more">Read more</a></p>
+      </article>
+    </li>
+    {% endfor %}
+  </ul>
+  <a href="{{url_for('articles.articles_index')}}">View all posts</a>
+</section>
+</div>
 
-  <h3>Hello {% if current_user.is_authenticated() %}{{ current_user.username }}{% else %}Stranger{% endif %}</h3>
+
+
+<h2>Latest Articles</h2>
+<img src="/static/img/freedom.jpg">
+
+<h3>Hello {% if current_user.is_authenticated() %}{{ current_user.username }}{% else %}Stranger{% endif %}</h3>
 
 </div>
 {% endblock %}

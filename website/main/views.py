@@ -2,7 +2,7 @@ from datetime import datetime
 from flask import render_template, session, redirect, url_for, current_app, flash
 from flask.ext.login import login_required, current_user
 from .. import db
-from ..models import User, Role, Cup, League, Team
+from ..models import User, Article
 from ..email import send_email
 from . import main
 from .forms import NameForm, ProfileForm
@@ -10,11 +10,16 @@ from .forms import NameForm, ProfileForm
 
 @main.route('/', methods=['GET', 'POST'])
 def index():
+    articles = Article.query.order_by(Article.post_date.desc()).all()
+    recent_posts = articles
+
     return render_template('ds/index.html',
         title = 'DS',
         description = 'Your source for the CONCACAF',
         page_id = 'homepage',
-        data_page = 'homepage'
+        data_page = 'homepage',
+        articles=articles,
+        recent_posts=articles
         )
 
 
