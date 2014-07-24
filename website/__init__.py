@@ -32,24 +32,10 @@ def create_app(config_name):
     def csrf_error(reason):
         return render_template('csrf_error.html', reason=reason), 400
 
-
-    # users
-    @app.route('/u/<user>')
-    def view_profile(user):
-        return render_template('ds/03-profile.html',
-            title = user,
-            description = 'Profile for user',
-            data_page = 'profile',
-            username = user
-            )
-
     # settings
     @app.route('/settings/')
     def change_settings():
         return 'cahnge site settings for user'
-
-
-
 
     # search
     @app.route('/search/')
@@ -59,14 +45,14 @@ def create_app(config_name):
 
 
 
-    from main import main as main_blueprint
-    from auth import auth as auth_blueprint
-    from articles import articles as articles_blueprint
-    from cups import cups as cups_blueprint
-    from leagues import leagues as leagues_blueprint
-    from teams import teams as teams_blueprint
-    from players import players as players_blueprint
-    from managers import managers as managers_blueprint
+    from .main import main as main_blueprint
+    from .auth import auth as auth_blueprint
+    from .articles import articles as articles_blueprint
+    from .cups import cups as cups_blueprint
+    from .leagues import leagues as leagues_blueprint
+    from .teams import teams as teams_blueprint
+    from .players import players as players_blueprint
+    from .managers import managers as managers_blueprint
 
     app.register_blueprint(main_blueprint)
     app.register_blueprint(auth_blueprint)

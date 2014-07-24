@@ -1,10 +1,11 @@
 from datetime import datetime
-from flask import render_template, session, redirect, url_for, current_app
+from flask import render_template, session, redirect, url_for, current_app, flash
+from flask.ext.login import login_required, current_user
 from .. import db
 from ..models import User, Role, Cup, League, Team
 from ..email import send_email
 from . import main
-from .forms import NameForm
+from .forms import NameForm, ProfileForm
 
 
 @main.route('/', methods=['GET', 'POST'])
@@ -30,7 +31,45 @@ def privacy_policy():
 
 
 
-@main.route('/u/<username>')
-def view_profile():
+@main.route('/u/<username>', methods=['GET','POST'])
+def view_profile(username):
     user = User.query.filter_by(username=username).first_or_404()
-    return render_template('ds/profile.html', user=user)
+    form = ProfileForm()
+    if form.validate_on_submit():
+        current_user.fullname = form.fullname.data
+        current_user.twitter = form.twitter.data
+        current_user.instagram = form.instagram.data
+        current_user.location = form.location.data
+        current_user.bio = form.bio.data
+        db.session.add(current_user)
+        flash('Your profile has been updated!')
+        return redirect(url_for('.view_profile', username=current_user.username))
+    form.fullname.data = current_user.fullname
+    form.twitter.data = current_user.twitter
+    form.instagram.data = current_user.instagram
+    form.location.data = current_user.location
+    form.bio.data = current_user.bio
+    form.fullname.data = current_user.fullname
+
+    return render_template('ds/profile.html', user=user, form=form)
+
+
+@main.route('/u/edit-profile', methods=['GET', 'POST'])
+@login_required
+def edit_profile():
+    form = ProfileForm()
+    if form.validate_on_submit():
+        current_user.fullname = form.fullname.data
+        current_user.twitter = form.twitter.data
+        current_user.instagram = form.instagram.data
+        current_user.location = form.location.data
+        current_user.bio = form.bio.data
+        db.session.add(current_user)
+        flash('Your profile has been updated!')
+        return redirect(url_for('.view_profile', username=current_user.username))
+    form.fullname.data = current_user.fullname
+    form.twitter.data = current_user.twitter
+    form.instagram.data = current_user.instagram
+    form.location.data = current_user.location
+    form.bio.data = current_user.bio
+    form.fullname.data = current_user.fullname

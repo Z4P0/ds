@@ -1,49 +1,10 @@
 from datetime import datetime
-from flask import current_app
+import hashlib
+from flask import current_app, request
 from . import db, login_manager
 from flask.ext.login import UserMixin, AnonymousUserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
-from itsdangerous import TimedJSONWebSignatureSerializer as  Serializer
-
-
-@login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(int(user_id))
-
-
-
-class Article(db.Model):
-    """ Articles """
-    __tablename__ = 'articles'
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(256))
-    slug = db.Column(db.String(256), unique=True)
-    content = db.Column(db.Text)
-    category_id = db.Column(db.Integer, db.ForeignKey('categories.id'))
-    post_date = db.Column(db.DateTime)
-    last_update = db.Column(db.DateTime, nullable=True)
-    # tags - an article can have many tags
-    # comments - an article can have many comments
-
-
-class Category(db.Model):
-    """ Articles categories """
-    __tablename__ = 'categories'
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(128), unique=True)
-    slug = db.Column(db.String(128), unique=True)
-    posts = db.relationship('Article', backref='category', lazy='dynamic')
-
-
-class Tag(db.Model):
-    """ Articles tags """
-    __tablename__ = 'tags'
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(64), unique=True)
-    slug = db.Column(db.String(64), unique=True)
-    # posts = db.relationship('Article', backref='tags', lazy='dynamic')
-
-
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 
 
 class Permission:
@@ -96,6 +57,8 @@ class Role(db.Model):
         return '<Role %r>' % self.name
 
 
+
+
 class User(UserMixin, db.Model):
     """ User information """
     __tablename__ = 'users'
@@ -112,9 +75,29 @@ class User(UserMixin, db.Model):
     member_since = db.Column(db.DateTime, default=datetime.utcnow)
     last_seen = db.Column(db.DateTime, default=datetime.utcnow)
     # profile_pic = db.Column(db.String(256))
+    gravatar_hash = db.Column(db.String(64))
     # comments
     # following
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
+
+    def __init__(self, **kwargs):
+        super(User, self).__init__(**kwargs)
+        if self.role is None:
+            if self.email == current_app.config['DS_ADMIN']:
+                self.role = Role.query.filter_by(permissions=0xff).first()
+            if self.role is None:
+                self.role = Role.query.filter_by(default=True).first()
+        if self.email is not None and self.gravatar_hash is None:
+            self.gravatar_hash = hashlib.md5(
+                self.email.encode('utf-8')).hexdigest()
+
+    def change_email(self, token):
+        self.email = new_email
+        self.gravatar_hash = hashlib.md5(
+                self.email.encode('utf-8')).hexdigest()
+        db.session.add(self)
+        return True
+
 
     @property
     def password(self):
@@ -154,13 +137,15 @@ class User(UserMixin, db.Model):
         self.last_seen = datetime.utcnow()
         db.session.add(self)
 
-    def __init__(self, **kwargs):
-        super(User, self).__init__(**kwargs)
-        if self.role is None:
-            if self.email == current_app.config['DS_ADMIN']:
-                self.role = Role.query.filter_by(permissions=0xff).first()
-            if self.role is None:
-                self.role = Role.query.filter_by(default=True).first()
+    def gravatar(self, size=100, default='identicon',rating='g'):
+        if request.is_secure:
+            url = 'https://secure.gravatar.com/avatar'
+        else:
+            url = 'http://secure.gravatar.com/avatar'
+        hash = hashlib.md5(self.email.encode('utf-8')).hexdigest()
+        return '{url}/{hash}?s={size}&d={default}&r={rating}'.format(
+            url=url, hash=hash, size=size, default=default, rating=rating)
+
 
 
     def __repr__(self):
@@ -175,6 +160,49 @@ class AnonymousUser(AnonymousUserMixin):
     def is_administrator(self):
         return False
 login_manager.anonymous_user = AnonymousUser
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+
+
+class Article(db.Model):
+    """ Articles """
+    __tablename__ = 'articles'
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(256))
+    slug = db.Column(db.String(256), unique=True)
+    content = db.Column(db.Text)
+    category_id = db.Column(db.Integer, db.ForeignKey('categories.id'))
+    post_date = db.Column(db.DateTime)
+    last_update = db.Column(db.DateTime, nullable=True)
+    # tags - an article can have many tags
+    # comments - an article can have many comments
+
+
+class Category(db.Model):
+    """ Articles categories """
+    __tablename__ = 'categories'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(128), unique=True)
+    slug = db.Column(db.String(128), unique=True)
+    posts = db.relationship('Article', backref='category', lazy='dynamic')
+
+
+class Tag(db.Model):
+    """ Articles tags """
+    __tablename__ = 'tags'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64), unique=True)
+    slug = db.Column(db.String(64), unique=True)
+    # posts = db.relationship('Article', backref='tags', lazy='dynamic')
+
+
+
+
+
 
 
 
