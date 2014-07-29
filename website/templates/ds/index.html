@@ -16,10 +16,10 @@
     {% for post in recent_posts %}
     <li>
       <article class="article-preview">
-        <h2 class="article-title"><a href="#post.slug">{{ post.slug }}</a></h2>
-        <span class="article-meta">Posted in <a href="#post.category" class="article-category">{{post.category}}</a><span class="posted-on">{{ post.post_date }}</span></span>
+        <h2 class="article-title"><a href="{{ url_for('articles.read_article', slug=post.slug) }}">{{ post.title }}</a></h2>
+        <span class="article-meta">Posted in <a href="{{ url_for('articles.view_category', slug=post.category.slug) }}" class="article-category">{{post.category.name}}</a><span class="posted-on">{{ post.post_date }}</span></span>
         <p>{{post.content}}</p>
-        <p><a href="#post.slug" class="read-more">Read more</a></p>
+        <p><a href="{{ url_for('articles.read_article', slug=post.slug) }}" class="read-more">Read more</a></p>
       </article>
     </li>
     {% endfor %}
@@ -30,9 +30,7 @@
 
 
 
-<h2>Latest Articles</h2>
 <img src="/static/img/freedom.jpg">
-
 <h3>Hello {% if current_user.is_authenticated() %}{{ current_user.username }}{% else %}Stranger{% endif %}</h3>
 
 </div>

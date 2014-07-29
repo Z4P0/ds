@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block title %}{{ title }} | {% endblock %}
+{% block description %}{{description}} | {% endblock %}
+{% block page_id %}{{page_id}}{% endblock %}
+{% block data_page %}{{data_page}}{% endblock %}
+
+
+{% block content %}
+<section id="all-articles">
+  <h2 id="all-articles-header" class="t7">All Articles</h2>
+  <section id="article-topics">
+    <div class="flex-all">
+      <h3 class="t7">All Topics</h3><span id="all-topics-toggle" class="toggle"><span class="expand">Expand</span><span class="collapse">Collapse</span></span>
+    </div>
+    <div id="all-topics-wrapper">
+      {% for topic in topics %}
+      <div>
+        <h4 class="t3">{{topic.title}}</h4>
+        <ul class="topics-list">
+          {% for category in topic.categories.all %}
+          <li><a href="{% url 'article:article_category' category.slug %}">{{category.title}}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+
+  <section id="published-articles">
+    <h3 class="t7">Published Articles</h3>
+    <ul class="published-articles">
+      {% for article in published_articles %}
+      <li>
+        <article class="article-preview">
+          <h4 class="article-title"><a href="{% url 'article:article' article.slug %}">{{article.title}}</a></h4>
+          <span class="article-meta">Posted in <a href="{% url 'article:article_category' article.category|slugify %}" class="article-category">{{article.category}}</a><span class="posted-on">{{ article.published_date|date:"F j, Y" }}</span></span>
+          <p class="lead-in">{{article.leadin}}</p><a href="{% url 'article:article' article.slug %}" class="read-article">Read more</a>
+        </article>
+      </li>
+      {% endfor %}
+    </ul>
+  </section>
+</section>
+{% endblock %}

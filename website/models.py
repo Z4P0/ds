@@ -176,13 +176,15 @@ class Article(db.Model):
     title = db.Column(db.String(256))
     slug = db.Column(db.String(256), unique=True)
     content = db.Column(db.Text)
+    # leadin = db.Column(db.Text)
     category_id = db.Column(db.Integer, db.ForeignKey('categories.id'))
     post_date = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     last_update = db.Column(db.DateTime, nullable=True)
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     # tags - an article can have many tags
     # comments - an article can have many comments
-
+    def __repr__(self):
+        return '<Article %r>' % self.title
 
 class Category(db.Model):
     """ Articles categories """
@@ -192,6 +194,8 @@ class Category(db.Model):
     slug = db.Column(db.String(128), unique=True)
     posts = db.relationship('Article', backref='category', lazy='dynamic')
 
+    def __repr__(self):
+        return '<Category %r>' % self.name
 
 class Tag(db.Model):
     """ Articles tags """
@@ -200,7 +204,8 @@ class Tag(db.Model):
     name = db.Column(db.String(64), unique=True)
     slug = db.Column(db.String(64), unique=True)
     # posts = db.relationship('Article', backref='tags', lazy='dynamic')
-
+    def __repr__(self):
+        return '<Tag %r>' % self.name
 
 
 

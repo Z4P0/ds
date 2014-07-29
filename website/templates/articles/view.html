@@ -1,0 +1,162 @@
+{% extends "base.html" %}
+
+{% block title %}{{ article.title }} | {% endblock %}
+{% block description %} {{article.title}} - {{ article.leadin}} | {% endblock %}
+{% block page_id %}{{article.id}}{% endblock %}
+{% block data_page %}article-post{% endblock %}
+
+
+{% block content %}
+<!-- <div class="wrapper"> -->
+  <article class="article-post">
+    <div class="wrapper">
+      <h2 class="article-title">{{article.title}}</h2>
+      <div>
+        <span class="article-meta">Posted in <a href="{{ url_for('articles.view_category', slug=article.category.slug) }}" class="article-category">{{article.category.name}}</a></span>
+        <span class="posted-on">{{ article.post_date }}</span>
+      </div>
+      {{article.content}}
+    </div>
+  </article>
+  <section id="article-tags">
+    {% if featured_players %}
+    <h3 class="t7">Featured Players</h3>
+    <ul class="article-tags">
+      {% for player in featured_players %}
+      <li><a href="#">{{player.title}}</a></li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+    {% if key_people %}
+    <h3 class="t7">Key People</h3>
+    <ul class="article-tags">
+      {% for person in key_people %}
+      <li><a href="#">{{person.title}}</a></li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+    <h3 class="t7">Tags</h3>
+    <ul class="article-tags">
+      {% for tag in standard_tags %}
+      <li><a href="#">{{tag.title}}</a></li>
+      {% endfor %}
+    </ul>
+  </section>
+  <section id="share-article">
+    <h3 class="t7">Recommend</h3>
+    <ul class="share-article">
+      <li><i class="fi-social-facebook"></i></li>
+      <li><i class="fi-social-google-plus"></i></li>
+      <li><i class="fi-social-reddit"></i></li>
+      <li><i class="fi-social-stumbleupon"></i></li>
+      <li><i class="fi-social-tumblr"></i></li>
+      <li><i class="fi-social-twitter"></i></li>
+    </ul>
+  </section>
+  {#
+  <div class="flex">
+    <section id="next-article">
+      <h3 class="t7">Next post</h3>
+      <article class="article-post">
+        <h4 class="article-title"><a href="{% url 'article:article' next_article.slug %}">{{next_article.title}}</a></h4>
+        <p class="lead-in">{{next_article.leadin}}</p>
+        <a href="{% url 'article:article' next_article.slug %}" class="read-article">Read more</a>
+      </article>
+    </section>
+    <section id="related-articles">
+      <h3 class="t7">Related articles</h3>
+      <ul class="related-articles">
+        {% for related in related_articles %}
+        <li>
+          <article class="article-preview">
+            <h4 class="article-title"><a href="{% url 'article:article' related.slug %}">{{related.title}}</a></h4>
+          </article>
+        </li>
+        {% endfor %}
+      </ul>
+    </section>
+  </div>
+  <section id="comments">
+    <div class="flex">
+      <form id="comment-form">
+        <h3 class="t7">Leave a comment</h3>
+        <textarea placeholder="Enter your comment..."></textarea>
+        <div id="comment-reveal">
+          <ul id="comment-registration">
+            <li>
+              <label>
+                <h4 class="t5">Email</h4>
+                <input type="text" placeholder="ex. coys@epl.com"/>
+              </label>
+            </li>
+            <li>
+              <label>
+                <h4 class="t5">Username</h4>
+                <input type="text" placeholder="ex. mr.levy"/>
+              </label>
+            </li>
+          </ul>
+          <label id="comment-follow">
+            <input type="checkbox"/>Notify me of replies to my comment
+          </label>
+          <div id="submit-comment">
+            <input type="submit" value="Submit"/>
+          </div>
+        </div>
+      </form>
+      <div id="comments-list">
+        <h3 class="t7">Comments</h3>
+        <ul class="comments-list">
+          {% for comment in article.comments.all %}
+          <li>
+            <div data-score="{{comment.score}}" class="comment">
+              <ul data-vote-cast="none" class="comment-vote">
+                <li><i data-vote="upvote" class="fi-arrow-up"></i></li>
+                <li><span class="comment-score">{{comment.score}}</span></li>
+                <li><i data-vote="downvote" class="fi-arrow-down"></i></li>
+              </ul>
+              <article class="comment-content">
+                <h4 class="comment-meta"><a href="#">{{comment.author}}</a> on {{comment.post_date}}</h4>
+                <p class="comment-text">{{comment.content}}</p>
+                <ul class="inline comment-actions">
+                  <li>reply</li>
+                  <li>report</li>
+                </ul>
+                {% if comment.replies %}
+                <div class="replies">
+                  <ul class="comment-replies">
+                    {% for reply in comment.replies %}
+                    <li>
+                      <div data-score="{{reply.score}}" class="comment">
+                        <ul data-vote-cast="none" class="comment-vote">
+                          <li><i data-vote="upvote" class="fi-arrow-up"></i></li>
+                          <li><span class="comment-score">{{reply.score}}</span></li>
+                          <li><i data-vote="downvote" class="fi-arrow-down"></i></li>
+                        </ul>
+                        <article class="comment-content">
+                          <h4 class="comment-meta"><a href="#">{{reply.author}}</a> on {{reply.post_date}}</h4>
+                          <p class="comment-text">{{reply.content}}</p>
+                          <ul class="inline comment-actions">
+                            <li>reply</li>
+                            <li>report</li>
+                          </ul>
+                          <div class="replies">
+                          </div>
+                        </article>
+                      </div>
+                    </li>
+                    {% endfor %}
+                  </ul>
+                </div>
+                {% endif %}
+              </article>
+            </div>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </section>
+  #}
+<!-- </div> -->
+{% endblock %}

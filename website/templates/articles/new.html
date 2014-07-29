@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}{{ title }} | {% endblock %}
+{% block description %}{{description}}{% endblock %}
+{% block page_id %}{{page_id}}{% endblock %}
+{% block data_page %}{{data_page}}{% endblock %}
+
+
+{% block content %}
+<div class="wrapper">
+  <form method="post">
+    {{form.hidden_tag()}}
+    {{form.title.label}}{{form.title}} <br/>
+    {{form.slug.label}}{{form.slug}} <br/>
+    {{form.body.label}}{{form.body}} <br/>
+    {{form.submit}}
+  </form>
+</div>
+{% endblock %}

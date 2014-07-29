@@ -1,0 +1,5 @@
+{% if articles.count > 0 %}
+	{% for article in articles %}<li> <a href="{% url 'article:article' article.slug %}">{{article.title}}</a></li>{% endfor %}
+	{% else %}
+	<li>None</li>
+{% endif %}
