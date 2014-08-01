@@ -5,6 +5,8 @@ from .. import db
 from . import articles
 from .forms import ArticleForm
 
+
+
 @articles.route('/')
 def articles_index():
     # all the categories - what we had before
@@ -15,6 +17,7 @@ def articles_index():
         title='Articles',
         topics=topics,
         posts=posts)
+
 
 
 @articles.route('/<slug>')
@@ -44,6 +47,9 @@ def edit_article(slug):
     form.preview.data = article.preview
     return render_template('articles/edit.html', form=form)
 
+
+
+
 @articles.route('/category/<slug>')
 def view_category(slug):
     category = Category.query.filter_by(slug=slug).first_or_404()
@@ -62,14 +68,17 @@ def view_category(slug):
 @login_required
 def article_form():
     form = ArticleForm()
-    if current_user.can(Permission.WRITE_ARTICLES):
-        flash('permission to write sir')
+    # form.category.choices = [(c.id, c.name) for c in Category.query.order_by('name')]
+    # if current_user.can(Permission.WRITE_ARTICLES):
+    #     flash('permission to write sir')
 
     if form.validate_on_submit():
         flash('we got this far')
+        # category = Category.query.filter_by(id=form.category.data).first()
         article = Article(
             title=form.title.data,
             slug=form.slug.data,
+            # category=category,
             content=form.body.data,
             preview=form.preview.data,
             author=current_user._get_current_object()

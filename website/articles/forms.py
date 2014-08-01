@@ -1,8 +1,8 @@
 from flask.ext.wtf import Form
-from wtforms import StringField, TextAreaField, PasswordField, FileField, SubmitField, BooleanField
+from wtforms import StringField, TextAreaField, PasswordField, FileField, SubmitField, BooleanField, SelectField
 from wtforms.validators import Required, Email, EqualTo, Length, Optional, URL
 from flask.ext.pagedown.fields import PageDownField
-
+from ..models import Category
 
 class ArticleForm(Form):
     """ For posting articles """
@@ -10,8 +10,8 @@ class ArticleForm(Form):
     slug = StringField('Slug', validators=[Required()])
     body = PageDownField('Drafting Page', validators=[Required()])
     preview = PageDownField('Preview (paragraph to get people interested)', validators=[Required()])
-    # body = TextAreaField('Drafting Page', validators=[Required()])
-    # preview = TextAreaField('Preview (paragraph to get people interested)', validators=[Required()])
+    # category = SelectField('Category', choices=[('1','test')], validators=[Required()])
+    # category = SelectField('Category', validators=[Required()])
     submit = SubmitField('Submit')
 
 
