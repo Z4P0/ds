@@ -28,20 +28,30 @@ class Role(db.Model):
 
     @staticmethod
     def insert_roles():
+        # roles = {
+        #     'User': (Permission.FOLLOW |
+        #              Permission.COMMENT, True),
+        #     'Moderator': (Permission.FOLLOW |
+        #                   Permission.COMMENT |
+        #                   Permission.MODERATE_COMMENTS, False),
+        #     'Contributor': (Permission.FOLLOW |
+        #                     Permission.COMMENT |
+        #                     Permission.WRITE_ARTICLES, False),
+        #                     # Permission.UPDATE_STATS, False),
+        #     'Writer': (Permission.WRITE_ARTICLES |
+        #                Permission.COMMENT |
+        #                Permission.FOLLOW, False),
+        #     # 'Stats': (Permission.)
+        #     'Administrator': (0xff, False)
+        # }
         roles = {
             'User': (Permission.FOLLOW |
-                     Permission.COMMENT, True),
+                     Permission.COMMENT |
+                     Permission.WRITE_ARTICLES, True),
             'Moderator': (Permission.FOLLOW |
                           Permission.COMMENT |
+                          Permission.WRITE_ARTICLES |
                           Permission.MODERATE_COMMENTS, False),
-            'Contributor': (Permission.FOLLOW |
-                            Permission.COMMENT |
-                            Permission.WRITE_ARTICLES, False),
-                            # Permission.UPDATE_STATS, False),
-            'Writer': (Permission.WRITE_ARTICLES |
-                       Permission.COMMENT |
-                       Permission.FOLLOW, False),
-            # 'Stats': (Permission.)
             'Administrator': (0xff, False)
         }
         for r in roles:
@@ -176,6 +186,7 @@ class Article(db.Model):
     title = db.Column(db.String(256))
     slug = db.Column(db.String(256), unique=True)
     content = db.Column(db.Text)
+    preview = db.Column(db.Text)
     # leadin = db.Column(db.Text)
     category_id = db.Column(db.Integer, db.ForeignKey('categories.id'))
     post_date = db.Column(db.DateTime, index=True, default=datetime.utcnow)

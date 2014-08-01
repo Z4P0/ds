@@ -10,9 +10,10 @@
 <div class="wrapper">
   <form method="post">
     {{form.hidden_tag()}}
-    {{form.title.label}}{{form.title}} <br/>
-    {{form.slug.label}}{{form.slug}} <br/>
-    {{form.body.label}}{{form.body}} <br/>
+    <p>{{form.title.label}}<br/>{{form.title}}</p>
+    <p>{{form.slug.label}}<br/>{{form.slug}}</p>
+    <p>{{form.body.label}}<br/>{{form.body}}</p>
+    <p>{{form.preview.label}}<br/>{{form.preview}}</p>
     {{form.submit}}
   </form>
 </div>

@@ -38,7 +38,7 @@
           <h4 class="article-title"><a href="{{ url_for('articles.read_article',slug=article.slug) }}">{{article.title}}</a></h4>
           <span class="article-meta">Posted in <a href="{{ url_for('articles.view_category',slug=article.category.slug) }}" class="article-category">{{article.category.title}}</a>
             <span class="posted-on">{{ article.post_date }}</span></span>
-          <p class="lead-in">{{article.content}}</p>
+          <p class="lead-in">{{article.preview}}</p>
           <a href="{{ url_for('articles.read_article',slug=article.slug) }}" class="read-article">Read more</a>
         </article>
       </li>

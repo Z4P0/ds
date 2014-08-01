@@ -11,7 +11,7 @@ from .forms import NameForm, ProfileForm
 @main.route('/', methods=['GET', 'POST'])
 def index():
     articles = Article.query.order_by(Article.post_date.desc()).all()
-    recent_posts = articles
+    # recent_posts = articles
 
     return render_template('ds/index.html',
         title = 'DS',
@@ -19,7 +19,7 @@ def index():
         page_id = 'homepage',
         data_page = 'homepage',
         articles=articles,
-        recent_posts=articles
+        # recent_posts=articles
         )
 
 

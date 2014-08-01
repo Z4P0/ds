@@ -42,11 +42,18 @@ def view_category(slug):
 @login_required
 def article_form():
     form = ArticleForm()
-    flash('see the form?')
-    # if current_user.can(Permission.WRITE_ARTICLES) and form.validate_on_submit():
+    if current_user.can(Permission.WRITE_ARTICLES):
+        flash('permission to write sir')
+
     if form.validate_on_submit():
         flash('we got this far')
-        article = Article(content=form.body.data, author=current_user._get_current_object())
+        article = Article(
+            title=form.title.data,
+            slug=form.slug.data,
+            content=form.body.data,
+            preview=form.preview.data,
+            author=current_user._get_current_object()
+            )
         db.session.add(article)
         return redirect(url_for('main.index'))
     return render_template('articles/new.html', form=form)

@@ -7,8 +7,9 @@ from wtforms.validators import Required, Email, EqualTo, Length, Optional, URL
 class ArticleForm(Form):
     """ For posting articles """
     title = StringField('Title', validators=[Required()])
-    slug = StringField('Title', validators=[Required()])
+    slug = StringField('Slug', validators=[Required()])
     body = TextAreaField('Drafting Page', validators=[Required()])
+    preview = TextAreaField('Preview (paragraph to get people interested)', validators=[Required()])
     submit = SubmitField('Submit')
 
 
