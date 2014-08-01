@@ -19,4 +19,6 @@ Initial setup:
 - Create user roles
 $ ./manage.py shell
 >>> Role.insert_roles()
+>>> Topic.create_topics()
+>>> Category.create_categories()
 

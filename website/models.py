@@ -269,6 +269,44 @@ class Category(db.Model):
     topic_id = db.Column(db.Integer, db.ForeignKey('topics.id'))
     default = db.Column(db.Boolean, default=False, index=True)
 
+
+    @staticmethod
+    def create_categories():
+        categories = {
+            'Club America': ('club-america', 'clubs', False),
+            'FC Buffalo': ('fc-buffalo', 'clubs', False),
+            'New York Red Bulls': ('new-york-red-bulls', 'clubs', False),
+            'Rochester Rhinos': ('rochester-rhinos', 'clubs', False),
+            'Tottenham Hotspur': ('tottenham-hotspur', 'clubs', False),
+            'MLS': ('mls','us', False),
+            'NASL': ('nasl','us', False),
+            'U.S. Open Cup': ('us-open-cup','us', False),
+            'USL-Pro': ('usl-pro','us', False),
+            'USMNT': ('usmnt','us', False),
+            'Ascenso MX': ('ascenso-mx','mx',False),
+            'Liga MX': ('liga-mx','mx',False),
+            'El Tri': ('el-tri','mx',False),
+            'College Soccer': ('college-soccer','series', False),
+            'Cuba!': ('cuba','series', False),
+            'Soccer In America': ('soccer-in-america','series', False),
+            'Match Highlights': ('match-highlights','other',False),
+            'Match Preview': ('match-preview','other',False),
+            'Match Report': ('match-report','other',False),
+            'Weekly Wrap-Up': ('weekly-wrap-up','other',False),
+            'Attendances': ('attendances','other',False),
+            'Important Other Stuff': ('important-other-stuff','other',True),
+        }
+        for c in categories:
+            topic = Topic.query.filter_by(slug=categories[c][1]).first()
+            category = Category.query.filter_by(name=c).first()
+            if category is None:
+                category = Category(name=c)
+            category.slug = categories[c][0]
+            category.default = categories[c][2]
+            category.topic = topic
+            db.session.add(topic)
+        db.session.commit()
+
     def __repr__(self):
         return '<Category %r>' % self.name
 
