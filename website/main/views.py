@@ -26,7 +26,7 @@ def index():
 # about
 @main.route('/about')
 def about_ds():
-    return 'Started in edgars room 4 years ago now'
+    return render_template('ds/about.html')
 
 
 # privacy

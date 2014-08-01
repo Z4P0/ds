@@ -15,7 +15,7 @@
         <span class="article-meta">Posted in <a href="{{ url_for('articles.view_category', slug=article.category.slug) }}" class="article-category">{{article.category.name}}</a></span>
         <span class="posted-on">{{ article.post_date }}</span>
       </div>
-      {{article.content}}
+      {{article.content_html|safe}}
     </div>
   </article>
   <section id="article-tags">
