@@ -23,6 +23,26 @@ def read_article(slug):
     # next_article =
     return render_template('articles/view.html', article=article)
 
+@articles.route('/<slug>/edit', methods=['GET','POST'])
+@login_required
+def edit_article(slug):
+    article = Article.query.filter_by(slug=slug).first_or_404()
+    if current_user != article.author and not current_user.can(Permission.ADMINISTER):
+        abort(403)
+    form = ArticleForm()
+    if form.validate_on_submit():
+        article.title = form.title.data
+        article.slug = form.slug.data
+        article.content = form.body.data
+        article.preview = form.preview.data
+        db.session.add(article)
+        flash('Article has been updated')
+        return redirect(url_for('articles.read_article', slug=article.slug))
+    form.title.data = article.title
+    form.slug.data = article.slug
+    form.body.data = article.content
+    form.preview.data = article.preview
+    return render_template('articles/edit.html', form=form)
 
 @articles.route('/category/<slug>')
 def view_category(slug):
