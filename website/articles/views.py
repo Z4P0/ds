@@ -1,6 +1,6 @@
 from flask import render_template, redirect, url_for, flash
 from flask.ext.login import current_user, login_required
-from ..models import Permission, Article, Category, Tag
+from ..models import Permission, Article, Category, Tag, Topic
 from .. import db
 from . import articles
 from .forms import ArticleForm
@@ -9,11 +9,11 @@ from .forms import ArticleForm
 def articles_index():
     # all the categories - what we had before
     # list of all the posts
-    categories = Category.query.all()
+    topics = Topic.query.order_by(Topic.id.desc()).all()
     posts = Article.query.all()
     return render_template('articles/index.html',
         title='Articles',
-        categories=categories,
+        topics=topics,
         posts=posts)
 
 
