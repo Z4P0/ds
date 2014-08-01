@@ -225,6 +225,40 @@ class Article(db.Model):
 db.event.listen(Article.content, 'set', Article.on_changed_content)
 db.event.listen(Article.preview, 'set', Article.on_changed_preview)
 
+
+class Topic(db.Model):
+    """ Site Topics """
+    __tablename__ = 'topics'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(128), unique=True)
+    slug = db.Column(db.String(128), unique=True)
+    categories = db.relationship('Category', backref='topic', lazy='dynamic')
+    default = db.Column(db.Boolean, default=False, index=True)
+
+    @staticmethod
+    def create_topics():
+        topics = {
+            'Clubs': ('clubs', False),
+            'US': ('us', False),
+            'MX': ('mx', False),
+            'Series': ('series', False),
+            'Other': ('other', True)
+        }
+        for t in topics:
+            topic = Topic.query.filter_by(name=t).first()
+            if topic is None:
+                topic = Topic(name=t)
+            topic.slug = topics[t][0]
+            topic.default = topics[t][1]
+            db.session.add(topic)
+        db.session.commit()
+
+
+
+    def __repr__(self):
+        return '<Topic %r>' % self.name
+
+
 class Category(db.Model):
     """ Articles categories """
     __tablename__ = 'categories'
@@ -232,9 +266,12 @@ class Category(db.Model):
     name = db.Column(db.String(128), unique=True)
     slug = db.Column(db.String(128), unique=True)
     posts = db.relationship('Article', backref='category', lazy='dynamic')
+    topic_id = db.Column(db.Integer, db.ForeignKey('topics.id'))
+    default = db.Column(db.Boolean, default=False, index=True)
 
     def __repr__(self):
         return '<Category %r>' % self.name
+
 
 class Tag(db.Model):
     """ Articles tags """

@@ -1,7 +1,7 @@
 #!/Users/sumo/.virtualenvs/ds-site/bin/python
 import os
 from website import create_app, db
-from website.models import User, Role, Cup, League, Team, Article, Category, Tag, Player, Manager, Association, Country
+from website.models import User, Role, Cup, League, Team, Article, Category, Tag, Player, Manager, Association, Country, Topic
 from flask.ext.script import Manager, Shell
 from flask.ext.migrate import Migrate, MigrateCommand
 
@@ -24,7 +24,8 @@ def make_shell_context():
         Player=Player,
         Manager=Manager,
         Association=Association,
-        Country=Country
+        Country=Country,
+        Topic=Topic
         )
 manager.add_command('shell', Shell(make_context=make_shell_context))
 manager.add_command('db', MigrateCommand)
