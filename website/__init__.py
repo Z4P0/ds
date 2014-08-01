@@ -5,9 +5,11 @@ from flask.ext.moment import Moment
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask_wtf.csrf import CsrfProtect
 from flask.ext.login import LoginManager
+from flask.ext.pagedown import PageDown
 from config import config
 
 
+pagedown = PageDown()
 moment = Moment()
 csrf = CsrfProtect()
 db = SQLAlchemy()
@@ -21,6 +23,7 @@ def create_app(config_name):
     app.config.from_object(config[config_name])
     config[config_name].init_app(app)
 
+    pagedown.init_app(app)
     moment.init_app(app)
     csrf.init_app(app)
     db.init_app(app)

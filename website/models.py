@@ -5,7 +5,8 @@ from . import db, login_manager
 from flask.ext.login import UserMixin, AnonymousUserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
-
+from markdown import markdown
+import bleach
 
 class Permission:
     """ Various permissions for site users """
@@ -179,6 +180,9 @@ def load_user(user_id):
 
 
 
+
+
+
 class Article(db.Model):
     """ Articles """
     __tablename__ = 'articles'
@@ -186,7 +190,9 @@ class Article(db.Model):
     title = db.Column(db.String(256))
     slug = db.Column(db.String(256), unique=True)
     content = db.Column(db.Text)
+    content_html = db.Column(db.Text)
     preview = db.Column(db.Text)
+    preview_html = db.Column(db.Text)
     # leadin = db.Column(db.Text)
     category_id = db.Column(db.Integer, db.ForeignKey('categories.id'))
     post_date = db.Column(db.DateTime, index=True, default=datetime.utcnow)
@@ -194,8 +200,30 @@ class Article(db.Model):
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     # tags - an article can have many tags
     # comments - an article can have many comments
+
+    @staticmethod
+    def on_changed_content(target, value, oldvalue, initiator):
+        allowed_tags = ['a', 'abbr', 'acronym', 'b', 'blockquote', 'code',
+                        'em', 'i', 'li', 'ol', 'pre', 'strong', 'ul',
+                        'h1', 'h2', 'h3', 'p']
+        target.content_html = bleach.linkify(bleach.clean(
+            markdown(value, output_format='html'),
+            tags=allowed_tags, strip=True))
+
+    @staticmethod
+    def on_changed_preview(target, value, oldvalue, initiator):
+        allowed_tags = ['a', 'abbr', 'acronym', 'b', 'blockquote', 'code',
+                        'em', 'i', 'li', 'ol', 'pre', 'strong', 'ul',
+                        'h1', 'h2', 'h3', 'p']
+        target.preview_html = bleach.linkify(bleach.clean(
+            markdown(value, output_format='html'),
+            tags=allowed_tags, strip=True))
+
     def __repr__(self):
         return '<Article %r>' % self.title
+
+db.event.listen(Article.content, 'set', Article.on_changed_content)
+db.event.listen(Article.preview, 'set', Article.on_changed_preview)
 
 class Category(db.Model):
     """ Articles categories """

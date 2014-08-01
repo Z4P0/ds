@@ -18,7 +18,7 @@
       <article class="article-preview">
         <h2 class="article-title"><a href="{{ url_for('articles.read_article', slug=post.slug) }}">{{ post.title }}</a></h2>
         <span class="article-meta">Posted in <a href="{{ url_for('articles.view_category', slug=post.category.slug) }}" class="article-category">{{post.category.name}}</a><span class="posted-on">{{ post.post_date }}</span></span>
-        <p>{{post.preview}}</p>
+        {% if post.preview_html %}{{ post.preview_html | safe }}{% else %}{{ post.preview }}{% endif %}
         <p><a href="{{ url_for('articles.read_article', slug=post.slug) }}" class="read-more">Read more</a></p>
       </article>
     </li>
