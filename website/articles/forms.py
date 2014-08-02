@@ -10,8 +10,8 @@ class ArticleForm(Form):
     slug = StringField('Slug', validators=[Required()])
     body = PageDownField('Drafting Page', validators=[Required()])
     preview = PageDownField('Preview (paragraph to get people interested)', validators=[Required()])
-    # category = SelectField('Category', choices=[('1','test')], validators=[Required()])
-    # category = SelectField('Category', validators=[Required()])
+    # category = SelectField('Category', choices=[('1','Club America')], validators=[Required()])
+    category = SelectField('Category', coerce=int, validators=[Required()])
     submit = SubmitField('Submit')
 
 

@@ -68,17 +68,23 @@ def view_category(slug):
 @login_required
 def article_form():
     form = ArticleForm()
-    # form.category.choices = [(c.id, c.name) for c in Category.query.order_by('name')]
+    form.category.choices = [(c.id, c.name) for c in Category.query.order_by('name')]
+
     # if current_user.can(Permission.WRITE_ARTICLES):
     #     flash('permission to write sir')
-
+    # flash('turn down for what')
+    # flash(form.category.data)
+    # if form.category.data is not None:
+    #     category = Category.query.filter_by(id=form.category.data).first()
+    #     flash(category)
     if form.validate_on_submit():
         flash('we got this far')
+        category = Category.query.filter_by(id=form.category.data).first()
         # category = Category.query.filter_by(id=form.category.data).first()
         article = Article(
             title=form.title.data,
             slug=form.slug.data,
-            # category=category,
+            category=category,
             content=form.body.data,
             preview=form.preview.data,
             author=current_user._get_current_object()
