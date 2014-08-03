@@ -47,7 +47,8 @@ def read_article(slug):
 
     return render_template('articles/view.html', article=article,
         next_article=next_article,
-        related_articles=related_articles)
+        related_articles=related_articles,
+        comments=None)
 
 
 
