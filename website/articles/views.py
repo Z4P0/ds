@@ -21,11 +21,35 @@ def articles_index():
 
 
 
+
+
+
+
 @articles.route('/<slug>')
 def read_article(slug):
     article = Article.query.filter_by(slug=slug).first_or_404()
-    # next_article =
-    return render_template('articles/view.html', article=article)
+    # get the latest article
+    # we have to account for article.ids that have been deleted
+    # we have gaps between some ids
+    index = 1
+    next_article = Article.query.filter_by(id=article.id + index).first()
+    while next_article is None:
+        index = index + 1
+        next_article = Article.query.filter_by(id=article.id + index).first()
+        if next_article is not None:
+            break
+        else:
+            next_article = Article.query.filter_by(id=article.id - index).first()
+
+    # get related articles
+    article_category = Category.query.filter_by(id=article.category_id).first()
+    related_articles = article_category.posts.order_by(Article.post_date.desc()).limit(3)
+
+    return render_template('articles/view.html', article=article,
+        next_article=next_article,
+        related_articles=related_articles)
+
+
 
 @articles.route('/<slug>/edit', methods=['GET','POST'])
 @login_required

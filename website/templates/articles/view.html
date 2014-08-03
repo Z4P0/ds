@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 
 {% block title %}{{ article.title }} | {% endblock %}
-{% block description %} {{article.title}} - {{ article.leadin}} | {% endblock %}
+{% block description %} {{article.title}} - {{ article.preview}} | {% endblock %}
 {% block page_id %}{{article.id}}{% endblock %}
-{% block data_page %}article-post{% endblock %}
+{% block data_page %}article{% endblock %}
 
 
 {% block content %}
@@ -35,12 +35,14 @@
       {% endfor %}
     </ul>
     {% endif %}
+    {% if standard_tags %}
     <h3 class="t7">Tags</h3>
     <ul class="article-tags">
       {% for tag in standard_tags %}
       <li><a href="#">{{tag.title}}</a></li>
       {% endfor %}
     </ul>
+    {% endif %}
   </section>
   <section id="share-article">
     <h3 class="t7">Recommend</h3>
@@ -53,14 +55,13 @@
       <li><i class="fi-social-twitter"></i></li>
     </ul>
   </section>
-  {#
   <div class="flex">
     <section id="next-article">
       <h3 class="t7">Next post</h3>
       <article class="article-post">
-        <h4 class="article-title"><a href="{% url 'article:article' next_article.slug %}">{{next_article.title}}</a></h4>
-        <p class="lead-in">{{next_article.leadin}}</p>
-        <a href="{% url 'article:article' next_article.slug %}" class="read-article">Read more</a>
+        <h4 class="article-title"><a href="{{ url_for('articles.read_article', slug=next_article.slug) }}">{{next_article.title}}</a></h4>
+        <p class="lead-in">{{next_article.preview}}</p>
+        <a href="{{ url_for('articles.read_article', slug=next_article.slug) }}" class="read-article">Read more</a>
       </article>
     </section>
     <section id="related-articles">
@@ -69,13 +70,14 @@
         {% for related in related_articles %}
         <li>
           <article class="article-preview">
-            <h4 class="article-title"><a href="{% url 'article:article' related.slug %}">{{related.title}}</a></h4>
+            <h4 class="article-title"><a href="{{ url_for('articles.read_article', slug=related.slug) }}">{{related.title}}</a></h4>
           </article>
         </li>
         {% endfor %}
       </ul>
     </section>
   </div>
+  {#
   <section id="comments">
     <div class="flex">
       <form id="comment-form">
