@@ -1,14 +1,14 @@
-"""initial migration
+"""changed default score
 
-Revision ID: 588622ed8086
-Revises: None
-Create Date: 2014-07-20 01:51:02.039633
+Revision ID: 4842581a5f23
+Revises: 50af7af629b3
+Create Date: 2014-08-03 03:05:46.791295
 
 """
 
 # revision identifiers, used by Alembic.
-revision = '588622ed8086'
-down_revision = None
+revision = '4842581a5f23'
+down_revision = '50af7af629b3'
 
 from alembic import op
 import sqlalchemy as sa

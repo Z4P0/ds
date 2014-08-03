@@ -17,6 +17,7 @@
     {{article.content_html|safe}}
   </div>
 </article>
+{#
 <section id="article-tags">
   {% if featured_players %}
   <h3 class="t7">Featured Players</h3>
@@ -43,6 +44,7 @@
   </ul>
   {% endif %}
 </section>
+#}
 <section id="share-article">
   <h3 class="t7">Recommend</h3>
   <ul class="share-article">
@@ -78,9 +80,10 @@
 </div>
 <section id="comments">
   <div class="flex">
-    <form id="comment-form">
+    <form id="comment-form" method="post">
+      {{ comment_form.hidden_tag() }}
       <h3 class="t7">Leave a comment</h3>
-      <textarea placeholder="Enter your comment..."></textarea>
+      {{ comment_form.body(placeholder='Enter your comment...') }}
       <div id="comment-reveal">
         <ul id="comment-registration">
           <li>
@@ -91,10 +94,11 @@
           </li>
         </ul>
         <label id="comment-follow">
-          <input type="checkbox"/>Notify me of replies to my comment
+          {{ comment_form.follow_replies }}
+          <span>Notify me of replies to my comment</span>
         </label>
         <div id="submit-comment">
-          <input type="submit" value="Submit"/>
+          {{ comment_form.submit }}
         </div>
       </div>
     </form>
@@ -102,25 +106,22 @@
       <h3 class="t7">Comments</h3>
       <ul class="comments-list">
         {% if comments %}
-        {% else %}
-          <li>No comments.</li>
-        {% endif %}
-        {#% for comment in article.comments.all %}
+        {% for comment in comments %}
         <li>
           <div data-score="{{comment.score}}" class="comment">
-            <ul data-vote-cast="none" class="comment-vote">
+            <!-- <ul data-vote-cast="none" class="comment-vote">
               <li><i data-vote="upvote" class="fi-arrow-up"></i></li>
               <li><span class="comment-score">{{comment.score}}</span></li>
               <li><i data-vote="downvote" class="fi-arrow-down"></i></li>
-            </ul>
+            </ul> -->
             <article class="comment-content">
-              <h4 class="comment-meta"><a href="#">{{comment.author}}</a> on {{comment.post_date}}</h4>
-              <p class="comment-text">{{comment.content}}</p>
+              <h4 class="comment-meta"><a href="#">{{comment.author.username}}</a> on {{comment.timestamp}}</h4>
+              <div class="comment-text">{{comment.body_html|safe}}</div>
               <ul class="inline comment-actions">
                 <li>reply</li>
                 <li>report</li>
               </ul>
-              {% if comment.replies %}
+              {#% if comment.replies %}
               <div class="replies">
                 <ul class="comment-replies">
                   {% for reply in comment.replies %}
@@ -146,11 +147,14 @@
                   {% endfor %}
                 </ul>
               </div>
-              {% endif %}
+              {% endif %#}
             </article>
           </div>
         </li>
-        {% endfor %#}
+        {% endfor %}
+        {% else %}
+          <li>No comments.</li>
+        {% endif %}
       </ul>
     </div>
   </div>

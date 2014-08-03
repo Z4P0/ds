@@ -238,6 +238,7 @@ class Comment(db.Model):
     enabled = db.Column(db.Boolean, default=True)
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     article_id = db.Column(db.Integer, db.ForeignKey('articles.id'))
+    score = db.Column(db.Integer, default=1)
 
     @staticmethod
     def on_changed_body(target, value, oldvalue, initiator):
