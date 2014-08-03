@@ -1,11 +1,43 @@
+import os
 from datetime import datetime
-from flask import render_template, session, redirect, url_for, current_app, flash
+from flask import render_template, session, redirect, url_for, current_app, flash, request, send_from_directory
 from flask.ext.login import login_required, current_user
+from werkzeug.utils import secure_filename
 from .. import db
 from ..models import User, Article
 from ..email import send_email
 from . import main
-from .forms import NameForm, ProfileForm
+from .forms import ProfileForm, UploadForm
+
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1] in current_app.config['ALLOWED_EXTENSIONS']
+
+
+@main.route('/uploads/<filename>')
+def view_uploaded_media(filename):
+    return send_from_directory(current_app.config['UPLOAD_FOLDER'], filename=filename)
+
+@main.route('/upload', methods=['GET','POST'])
+@login_required
+def upload_file():
+    form = UploadForm()
+    flash(current_app.config['UPLOAD_FOLDER'])
+    if form.validate_on_submit():
+        flash('just a test to uplaod a file')
+        # file = request.files['media']
+        # if file and allowed_file(file.filename):
+        #     filename = secure_filename(file.filename)
+        #     flash(filename)
+        #     file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
+            # return redirect(url_for('main.view_uploaded_media', filename=filename))
+        uploaded_file = request.files['media']
+        if uploaded_file and allowed_file(uploaded_file.filename):
+            filename = secure_filename(uploaded_file.filename)
+            flash(filename)
+            uploaded_file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
+            return redirect(url_for('main.view_uploaded_media', filename=filename))
+    return render_template('ds/uploads.html', form=form)
 
 
 @main.route('/', methods=['GET', 'POST'])
@@ -34,6 +66,18 @@ def about_ds():
 @main.route('/privacy-policy')
 def privacy_policy():
     return 'DS privacy policy'
+
+
+
+# settings
+@main.route('/settings/')
+def change_settings():
+    return 'cahnge site settings for user'
+
+# search
+@main.route('/search/')
+def search_ds():
+    return 'Search'
 
 
 

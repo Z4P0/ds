@@ -15,6 +15,10 @@ class Config:
     DS_MAIL_SENDER = 'DS Admin <ds.admin@dohertysoccer.com'
     DS_ADMIN = os.environ.get('DS_ADMIN')
 
+    # upload file nonsense
+    UPLOAD_FOLDER = os.path.join(basedir, 'website/media')
+    ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
+
     @staticmethod
     def init_app(app):
         pass

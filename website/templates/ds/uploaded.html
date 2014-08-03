@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}{{ title }} | {% endblock %}
+{% block description %}{{description}}{% endblock %}
+{% block page_id %}{{page_id}}{% endblock %}
+{% block data_page %}{{data_page}}{% endblock %}
+
+
+{% block content %}
+<div class="wrapper">
+  <h2>Filename: {{filename}}</h2>
+  <img src="/media/{{filename}}" alt="alt text">
+</div>
+{% endblock %}

@@ -2,15 +2,11 @@ from flask.ext.wtf import Form
 from wtforms import StringField, TextAreaField, PasswordField, SelectField, FileField, SubmitField, BooleanField
 from wtforms.validators import Required, Email, EqualTo, Length, Optional, URL, Regexp
 
-#
-# SPACES SHOULD NOT BED ALLOWED IN USERNAMES
-# UNDERSCORES AND HYPENS ARE OK
-#
 
-class NameForm(Form):
-    """What is your name?"""
-    name = StringField(validators=[Required()])
-    submit = SubmitField('Submit')
+class UploadForm(Form):
+    """ test form for uploading things to the server """
+    media = FileField('Add file to upload')
+    submit = SubmitField('Upload')
 
 
 # # upvote/downvote

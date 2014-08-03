@@ -35,17 +35,6 @@ def create_app(config_name):
     def csrf_error(reason):
         return render_template('csrf_error.html', reason=reason), 400
 
-    # settings
-    @app.route('/settings/')
-    def change_settings():
-        return 'cahnge site settings for user'
-
-    # search
-    @app.route('/search/')
-    def search_ds():
-        return 'Search'
-
-
 
 
     from .main import main as main_blueprint
