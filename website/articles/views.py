@@ -3,7 +3,7 @@ from flask.ext.login import current_user, login_required
 from ..models import Permission, Article, Category, Tag, Topic, Comment
 from .. import db
 from . import articles
-from .forms import ArticleForm, CommentForm
+from .forms import ArticleForm, CommentForm, ReplyForm
 
 
 
@@ -46,8 +46,8 @@ def read_article(slug):
     related_articles = article_category.posts.order_by(Article.post_date.desc()).limit(3)
 
     # comment shit
-    comment_form = CommentForm()
-    if comment_form.validate_on_submit():
+    comment_form = CommentForm(prefix='comment')
+    if comment_form.validate_on_submit() and comment_form.submit.data:
         comment = Comment(
             body=comment_form.body.data,
             author=current_user._get_current_object(),
@@ -57,14 +57,26 @@ def read_article(slug):
         flash('Your comment has been posted!')
         return redirect(url_for('articles.read_article', slug=article.slug))
 
-    # pagination = article.comments.order_by(Comment.timestamp.desc()).paginate(
-    #         page, per_page=20, error_out=False)
-    # comments = pagination.items
     comments = article.comments.order_by(Comment.timestamp.desc()).limit(20)
 
+    reply_form = ReplyForm(prefix='reply')
+    if reply_form.validate_on_submit() and reply_form.submit.data:
+        flash('hey you posted a reply!')
+        flash(reply_form.comment_id.data)
+
+        og_comment = Comment.query.filter_by(id=reply_form.comment_id.data).first()
+        # flash(og_comment)
+        flash(og_comment.body)
+        # comment = Comment(
+        #     body=reply_form.body.data,
+        #     author=current_user._get_current_object(),
+        #     article=
+        #     )
+        return redirect(url_for('articles.read_article', slug=article.slug))
     return render_template('articles/view.html', article=article,
         next_article=next_article, related_articles=related_articles,
-        comment_form=comment_form, comments=comments)
+        comment_form=comment_form, comments=comments,
+        reply_form=reply_form)
 
 
 

@@ -31,10 +31,10 @@ ds.commentPost = (function() {
       var voteState = ul.getAttribute('data-vote-cast');
 
       // cast vote
-      if (voteState === 'none') { 
+      if (voteState === 'none') {
         if (commentVote === 'upvote') score++;
         else if (commentVote === 'downvote') score--;
-      } 
+      }
       // change vote
       else {
         // reset vote
@@ -64,15 +64,35 @@ ds.commentPost = (function() {
       // remove event listener for this one
       e.target.innerHTML = '--------';
       // build reply form
-      e.target.parentNode.parentNode.insertBefore(replyForm(), e.target.parentNode.nextSibling);
+      var $form = $('#reply-form').clone();
+          // console.log($form);
+          // $form.find('#reply-comment_id').attr('value', e.target.parentNode.parentNode.parentNode.getAttribute('data-id'));
+          // console.log($form.find('#reply-comment_id'));
+          // console.log(e.target.parentNode.parentNode.parentNode.getAttribute('data-id'));
+          // $form.find('#reply-comment_id').val(e.target.parentNode.parentNode.parentNode.getAttribute('data-id'))
+
+      // console.log(e.target.parentNode.parentNode.parentNode);
+      // console.log(e.target.parentNode.parentNode.parentNode.getAttribute('data-id'));
+      $('#reply-form').clone().insertAfter($(e.target.parentNode));
+      console.log('inserted form');
+      console.log($(e.target.parentNode.parentNode).find('#reply-comment_id'));
+      $(e.target.parentNode.parentNode).find('#reply-comment_id').val(e.target.parentNode.parentNode.parentNode.getAttribute('data-id'))
+      // $('#reply-form').clone().insertAfter($(e.target.parentNode));
     } else if (action === 'report') {
       console.log('report');
     }
   };
 
   var replyForm = function() {
+    // this is no longer called
+    // we build the form with WTForms and copy that to where need
     var form = document.createElement('form');
         form.className = 'reply-form';
+    // var csrf_token = document.createElement('input');
+        // csrf_token.id = 'csrf_token';
+        // csrf_token.name = 'csrf_token';
+        // csrf_token.type = 'hidden';
+        // csrf_token.value = $('#csrf_token').val();
     var textarea = document.createElement('textarea');
         textarea.setAttribute('placeholder', 'Enter your reply...');
     var div = document.createElement('div');
@@ -81,6 +101,7 @@ ds.commentPost = (function() {
         input.setAttribute('type', 'submit');
         input.setAttribute('value', 'Submit');
         div.appendChild(input);
+    // form.appendChild(csrf_token);
     form.appendChild(textarea);
     form.appendChild(div);
     return form;

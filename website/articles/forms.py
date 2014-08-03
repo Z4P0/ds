@@ -1,5 +1,5 @@
 from flask.ext.wtf import Form
-from wtforms import StringField, TextAreaField, PasswordField, FileField, SubmitField, BooleanField, SelectField
+from wtforms import StringField, TextAreaField, PasswordField, FileField, SubmitField, BooleanField, SelectField, HiddenField
 from wtforms.validators import Required, Email, EqualTo, Length, Optional, URL
 from flask.ext.pagedown.fields import PageDownField
 from ..models import Category
@@ -22,6 +22,12 @@ class CommentForm(Form):
     # email = StringField('Email', validators=[Required(), Email(), Length(1, 64)])
     follow_replies = BooleanField('Follow Replies', validators=[Optional()])
     submit = SubmitField('Comment')
+
+class ReplyForm(Form):
+    """ Comments replies """
+    body = TextAreaField(validators=[Required()])
+    comment_id = HiddenField()
+    submit = SubmitField('Reply')
 
 
 

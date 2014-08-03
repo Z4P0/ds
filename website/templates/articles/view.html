@@ -108,7 +108,7 @@
         {% if comments %}
         {% for comment in comments %}
         <li>
-          <div data-score="{{comment.score}}" class="comment">
+          <div data-score="{{comment.score}}" data-id="{{comment.id}}" class="comment">
             <!-- <ul data-vote-cast="none" class="comment-vote">
               <li><i data-vote="upvote" class="fi-arrow-up"></i></li>
               <li><span class="comment-score">{{comment.score}}</span></li>
@@ -157,6 +157,14 @@
         {% endif %}
       </ul>
     </div>
+  </div>
+  <div style="display:none;">
+    <form id="reply-form" method="post" class="reply-form">
+      {{ reply_form.hidden_tag() }}
+      {{ reply_form.comment_id }}
+      {{ reply_form.body(placeholder="Enter your reply") }}
+      {{ reply_form.submit }}
+    </form>
   </div>
 </section>
 {% endblock %}
