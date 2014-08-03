@@ -16,7 +16,8 @@ class Config:
     DS_ADMIN = os.environ.get('DS_ADMIN')
 
     # upload file nonsense
-    UPLOAD_FOLDER = os.path.join(basedir, 'website/media')
+    UPLOAD_FOLDER = os.path.join(basedir, 'website/static/media')
+    # UPLOAD_FOLDER = os.path.join(basedir, 'website/media')
     ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 
     @staticmethod

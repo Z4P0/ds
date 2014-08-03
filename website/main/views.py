@@ -18,23 +18,19 @@ def allowed_file(filename):
 def view_uploaded_media(filename):
     return send_from_directory(current_app.config['UPLOAD_FOLDER'], filename=filename)
 
+@main.route('/media/<filename>')
+def media(filename):
+    return send_from_directory(current_app.config['UPLOAD_FOLDER'], filename=filename)
+
+
 @main.route('/upload', methods=['GET','POST'])
 @login_required
 def upload_file():
     form = UploadForm()
-    flash(current_app.config['UPLOAD_FOLDER'])
     if form.validate_on_submit():
-        flash('just a test to uplaod a file')
-        # file = request.files['media']
-        # if file and allowed_file(file.filename):
-        #     filename = secure_filename(file.filename)
-        #     flash(filename)
-        #     file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
-            # return redirect(url_for('main.view_uploaded_media', filename=filename))
         uploaded_file = request.files['media']
         if uploaded_file and allowed_file(uploaded_file.filename):
             filename = secure_filename(uploaded_file.filename)
-            flash(filename)
             uploaded_file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
             return redirect(url_for('main.view_uploaded_media', filename=filename))
     return render_template('ds/uploads.html', form=form)

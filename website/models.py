@@ -204,7 +204,7 @@ class Article(db.Model):
     @staticmethod
     def on_changed_content(target, value, oldvalue, initiator):
         allowed_tags = ['a', 'abbr', 'acronym', 'b', 'blockquote', 'code',
-                        'em', 'i', 'li', 'ol', 'pre', 'strong', 'ul',
+                        'em', 'i', 'img', 'li', 'ol', 'pre', 'strong', 'ul',
                         'h1', 'h2', 'h3', 'p']
         target.content_html = bleach.linkify(bleach.clean(
             markdown(value, output_format='html'),
@@ -213,7 +213,7 @@ class Article(db.Model):
     @staticmethod
     def on_changed_preview(target, value, oldvalue, initiator):
         allowed_tags = ['a', 'abbr', 'acronym', 'b', 'blockquote', 'code',
-                        'em', 'i', 'li', 'ol', 'pre', 'strong', 'ul',
+                        'em', 'i', 'img', 'li', 'ol', 'pre', 'strong', 'ul',
                         'h1', 'h2', 'h3', 'p']
         target.preview_html = bleach.linkify(bleach.clean(
             markdown(value, output_format='html'),
@@ -246,7 +246,7 @@ class Comment(db.Model):
     @staticmethod
     def on_changed_body(target, value, oldvalue, initiator):
         allowed_tags = ['a', 'abbr', 'acronym', 'b', 'blockquote',
-                        'em', 'i', 'li', 'ol', 'strong', 'ul',
+                        'em', 'i', 'img', 'li', 'ol', 'strong', 'ul',
                         'h1', 'h2', 'p']
         target.body_html = bleach.linkify(bleach.clean(
             markdown(value, output_format='html'),
