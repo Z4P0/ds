@@ -7,31 +7,34 @@
 
 
 {% block content %}
-<div class="wrapper">
 <div id="latest-articles">
-
-<section id="recent-posts">
-  <h2 class="t7">Recent Posts</h2>
-  <ul class="recent-articles">
-    {% for post in articles %}
-    <li>
-      <article class="article-preview">
-        <h2 class="article-title"><a href="{{ url_for('articles.read_article', slug=post.slug) }}">{{ post.title }}</a></h2>
-        <span class="article-meta">Posted in <a href="{{ url_for('articles.view_category', slug=post.category.slug) }}" class="article-category">{{post.category.name}}</a><span class="posted-on">{{ post.post_date }}</span></span>
-        {% if post.preview_html %}{{ post.preview_html | safe }}{% else %}{{ post.preview }}{% endif %}
-        <p><a href="{{ url_for('articles.read_article', slug=post.slug) }}" class="read-more">Read more</a></p>
-      </article>
-    </li>
-    {% endfor %}
-  </ul>
-  <a href="{{url_for('articles.articles_index')}}">View all posts</a>
-</section>
+  <section id="latest-post">
+    <h2 class="t7">Latest Post</h2>
+    <article class="article-post">
+      <h3 class="article-title"><a href="{{ url_for('articles.read_article', slug=latest_post.slug) }}">{{ latest_post.title }}</a></h3>
+      <span class="article-meta">Posted in <a href="{{ url_for('articles.view_category', slug=latest_post.category.slug) }}" class="article-category">{{latest_post.category.name}}</a><span class="posted-on">{{ latest_post.post_date }}</span></span>
+      <div class="lead-in">{{ latest_post.preview|safe }}</div>
+      <a href="{{ url_for('articles.read_article', slug=latest_post.slug) }}" class="read-article">Continue reading</a>
+    </article>
+  </section>
+  <section id="recent-posts">
+    <h2 class="t7">Recent Posts</h2>
+    <ul class="recent-articles">
+      {% for post in recent_posts %}
+      <li>
+        <article class="article-preview">
+          <h2 class="article-title"><a href="{{ url_for('articles.read_article', slug=post.slug) }}">{{ post.title }}</a></h2>
+          <span class="article-meta">Posted in <a href="{{ url_for('articles.view_category', slug=post.category.slug) }}" class="article-category">{{post.category.name}}</a><span class="posted-on">{{ post.post_date }}</span></span>
+          <p><a href="{{ url_for('articles.read_article', slug=post.slug) }}" class="read-more">Read more</a></p>
+        </article>
+      </li>
+      {% endfor %}
+    </ul>
+    <a href="{{url_for('articles.articles_index')}}">View all posts</a>
+  </section>
 </div>
-
-
-
-<img src="/static/img/freedom.jpg">
+{#
+<img src=" {{ url_for('static', filename='img/freedom.jpg') }} ">
 <h3>Hello {% if current_user.is_authenticated() %}{{ current_user.username }}{% else %}Stranger{% endif %}</h3>
-
-</div>
+#}
 {% endblock %}

@@ -10,16 +10,17 @@ from .forms import NameForm, ProfileForm
 
 @main.route('/', methods=['GET', 'POST'])
 def index():
-    articles = Article.query.order_by(Article.post_date.desc()).all()
-    # recent_posts = articles
+    articles = Article.query.order_by(Article.post_date.desc())
+    latest_post = articles.first()
+    recent_posts = articles[1:5]
 
     return render_template('ds/index.html',
         title = 'DS',
         description = 'Your source for the CONCACAF',
         page_id = 'homepage',
         data_page = 'homepage',
-        articles=articles,
-        # recent_posts=articles
+        latest_post=latest_post,
+        recent_posts=recent_posts
         )
 
 
