@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 
-{% block title %}{{ title }} | {% endblock %}
+{% block title %}{{ category.name }} | {% endblock %}
 {% block description %}{{description}}{% endblock %}
-{% block page_id %}{{page_id}}{% endblock %}
-{% block data_page %}{{data_page}}{% endblock %}
+{% block page_id %}article-series{% endblock %}
+{% block data_page %}article{% endblock %}
 
 
 
@@ -15,43 +15,33 @@
     &nbsp;&nbsp;<span class="subscribe-btn"><i class="fi-plus"> </i>Subscribe</span>
   </p>
 </hgroup>
-<div class="wrapper">
-  <ul>
-    {% for post in posts %}
-    <li>
-      {{ post.title }}
-    </li>
-    {% endfor %}
-  </ul>
-</div>
 <div id="latest-2" class="latest-category-posts">
-  {#% for latest in latest_2 %}
+  {% for latest in latest_2 %}
   <article>
-    <p class="article-meta-2">Posted on {{latest.published_date}}</p>
-    <h3 class="article-title"><a href="{% url 'article:article' latest.slug %}">{{latest.title}}</a></h3>
-    <p>{{latest.leadin}}</p>
-    <p class="read-more"><a href="{% url 'article:article' latest.slug %}">Read more</a></p>
+    <p class="article-meta-2">Posted on {{latest.post_date}}</p>
+    <h3 class="article-title"><a href="{{ url_for('articles.read_article', slug=latest.slug) }}">{{latest.title}}</a></h3>
+    {{latest.preview_html|safe}}
+    <p class="read-more"><a href="{{ url_for('articles.read_article', slug=latest.slug) }}">Read more</a></p>
   </article>
-  {% endfor %#}
+  {% endfor %}
 </div>
 <div id="more-recent" class="latest-category-posts">
-  {#% for recent in more_recent %}
+  {% for recent in more_recent %}
   <article>
-    <p class="article-meta-2">Posted on {{recent.published_date}}</p>
-    <h3 class="article-title"><a href="{% url 'article:article' recent.slug %}">{{recent.title}}</a></h3>
-    <p>{{recent.leadin}}</p>
-    <p class="read-more"><a href="{% url 'article:article' recent.slug %}">Read more</a></p>
+    <p class="article-meta-2">Posted on {{recent.post_date}}</p>
+    <h3 class="article-title"><a href="{{ url_for('articles.read_article', slug=recent.slug) }}">{{recent.title}}</a></h3>
+    {{recent.preview_html|safe}}
+    <p class="read-more"><a href="{{ url_for('articles.read_article', slug=recent.slug) }}">Read more</a></p>
   </article>
   {% endfor %}
 </div>
 <div class="latest-category-posts">
   {% for other in the_rest %}
   <article>
-    <p class="article-meta-2">Posted on {{other.published_date}}</p>
-    <h3 class="article-title"><a href="{% url 'article:article' other.slug %}">{{other.title}}</a></h3>
-    <p>{{other.leadin}}</p>
-    <p class="read-more"><a href="{% url 'article:article' other.slug %}">Read more</a></p>
+    <p class="article-meta-2">Posted on {{other.post_date}}</p>
+    <h3 class="article-title"><a href="{{ url_for('articles.read_article', slug=other.slug) }}">{{other.title}}</a></h3>
+    <p class="read-more"><a href="{{ url_for('articles.read_article', slug=other.slug) }}">Read more</a></p>
   </article>
-  {% endfor %#}
+  {% endfor %}
 </div>
 {% endblock %}

@@ -12,11 +12,12 @@ def articles_index():
     # all the categories - what we had before
     # list of all the posts
     topics = Topic.query.order_by(Topic.id.desc()).all()
-    posts = Article.query.all()
+    posts = Article.query.order_by(Article.post_date.desc()).limit(20)
     return render_template('articles/index.html',
         title='Articles',
         topics=topics,
-        posts=posts)
+        posts=posts
+        )
 
 
 
@@ -50,17 +51,35 @@ def edit_article(slug):
 
 
 
+
+
+@articles.route('/category/')
+def category_index():
+    return redirect(url_for('articles.articles_index'))
+
+
 @articles.route('/category/<slug>')
 def view_category(slug):
     category = Category.query.filter_by(slug=slug).first_or_404()
-    posts = category.posts.all()
+    posts = category.posts.order_by(Article.post_date.desc()).limit(20)
     total_posts = category.posts.count()
-    # latest_2
+    latest_2 = posts[0:2]
+    more_recent = posts[2:5]
+    the_rest = posts[5:9]
+    # posts = Article.query.order_by(Article.post_date.desc()).limit(2)
     return render_template('articles/category-single.html',
         title=category.name,
         posts=posts,
+        latest_2=latest_2,
+        more_recent=more_recent,
+        the_rest=the_rest,
         total_posts=total_posts,
         category=category)
+
+
+
+
+
 
 
 
@@ -70,17 +89,8 @@ def article_form():
     form = ArticleForm()
     form.category.choices = [(c.id, c.name) for c in Category.query.order_by('name')]
 
-    # if current_user.can(Permission.WRITE_ARTICLES):
-    #     flash('permission to write sir')
-    # flash('turn down for what')
-    # flash(form.category.data)
-    # if form.category.data is not None:
-    #     category = Category.query.filter_by(id=form.category.data).first()
-    #     flash(category)
-    if form.validate_on_submit():
-        flash('we got this far')
+    if current_user.can(Permission.WRITE_ARTICLES) and form.validate_on_submit():
         category = Category.query.filter_by(id=form.category.data).first()
-        # category = Category.query.filter_by(id=form.category.data).first()
         article = Article(
             title=form.title.data,
             slug=form.slug.data,
@@ -90,5 +100,5 @@ def article_form():
             author=current_user._get_current_object()
             )
         db.session.add(article)
-        return redirect(url_for('main.index'))
-    return render_template('articles/new.html', form=form)
+        return redirect(url_for('articles.read_article', slug=form.slug.data))
+    return render_template('articles/new.html', title='New Article',form=form)
