@@ -48,29 +48,37 @@ def read_article(slug):
     # comment shit
     comment_form = CommentForm(prefix='comment')
     if comment_form.validate_on_submit() and comment_form.submit.data:
-        comment = Comment(
-            body=comment_form.body.data,
-            author=current_user._get_current_object(),
-            article=article
-            )
-        db.session.add(comment)
-        flash('Your comment has been posted!')
-        return redirect(url_for('articles.read_article', slug=article.slug))
+        if current_user.can(Permission.COMMENT):
+            comment = Comment(
+                body=comment_form.body.data,
+                author=current_user._get_current_object(),
+                article=article
+                )
+            db.session.add(comment)
+            flash('Your comment has been posted!')
+            return redirect(url_for('articles.read_article', slug=article.slug))
+        # elif comment_form.email.data:
+        #     flash('an email was entered')
+        else:
+            flash('please login to comment')
 
     comments = article.comments.filter_by(reply_to=None).order_by(Comment.timestamp.desc()).limit(20)
 
     reply_form = ReplyForm(prefix='reply')
     if reply_form.validate_on_submit() and reply_form.submit.data:
-        flash('hey you posted a reply!')
-        og_comment = Comment.query.filter_by(id=reply_form.comment_id.data).first()
-        reply = Comment(
-            body=reply_form.body.data,
-            author=current_user._get_current_object(),
-            article=article,
-            reply_to=og_comment
-            )
-        db.session.add(reply)
-        return redirect(url_for('articles.read_article', slug=article.slug))
+        if current_user.can(Permission.COMMENT):
+            og_comment = Comment.query.filter_by(id=reply_form.comment_id.data).first()
+            reply = Comment(
+                body=reply_form.body.data,
+                author=current_user._get_current_object(),
+                article=article,
+                reply_to=og_comment
+                )
+            db.session.add(reply)
+            flash('hey you posted a reply!')
+            return redirect(url_for('articles.read_article', slug=article.slug))
+        else:
+            flash('you must login in order to reply')
     return render_template('articles/view.html', article=article,
         next_article=next_article, related_articles=related_articles,
         comment_form=comment_form, comments=comments,

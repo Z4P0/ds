@@ -85,20 +85,21 @@
       <h3 class="t7">Leave a comment</h3>
       {{ comment_form.body(placeholder='Enter your comment...') }}
       <div id="comment-reveal">
-        <ul id="comment-registration">
+        {#<ul id="comment-registration">
           <li>
             <label>
               <h4 class="t5">Email</h4>
-              <input type="text" placeholder="ex. coys@epl.com"/>
+              {{ comment_form.email(placeholder='ex. coys@epl.com') }}
             </label>
           </li>
-        </ul>
+        </ul>#}
         <label id="comment-follow">
           {{ comment_form.follow_replies }}
           <span>Notify me of replies to my comment</span>
         </label>
         <div id="submit-comment">
           {{ comment_form.submit }}
+          <small style="color:#888">You must be logged in to comment <a href="{{url_for('auth.login')}}">Login</a></small>
         </div>
       </div>
     </form>
@@ -109,11 +110,11 @@
         {% for comment in comments %}
         <li>
           <div data-score="{{comment.score}}" data-id="{{comment.id}}" class="comment">
-            <ul data-vote-cast="none" class="comment-vote">
+            {#<ul data-vote-cast="none" class="comment-vote">
               <li><i data-vote="upvote" class="fi-arrow-up"></i></li>
               <li><span class="comment-score">{{comment.score}}</span></li>
               <li><i data-vote="downvote" class="fi-arrow-down"></i></li>
-            </ul>
+            </ul>#}
             <article class="comment-content">
               <h4 class="comment-meta"><a href="#">{{comment.author.username}}</a> on {{comment.timestamp}}</h4>
               <div class="comment-text">{{comment.body_html|safe}}</div>
@@ -127,11 +128,11 @@
                   {% for reply in comment.replies %}
                   <li>
                     <div data-score="{{reply.score}}" data-id="{{reply.id}}" class="comment">
-                      <ul data-vote-cast="none" class="comment-vote">
+                      {#<ul data-vote-cast="none" class="comment-vote">
                         <li><i data-vote="upvote" class="fi-arrow-up"></i></li>
                         <li><span class="comment-score">{{reply.score}}</span></li>
                         <li><i data-vote="downvote" class="fi-arrow-down"></i></li>
-                      </ul>
+                      </ul>#}
                       <article class="comment-content">
                         <h4 class="comment-meta"><a href="#">{{reply.author.username}}</a> on {{reply.timestamp}}</h4>
                         <p class="comment-text">{{reply.body_html|safe}}</p>
@@ -145,11 +146,11 @@
                             {% for rep in reply.replies %}
                             <li>
                               <div data-score="{{rep.score}}" data-id="{{rep.id}}" class="comment">
-                                <ul data-vote-cast="none" class="comment-vote">
+                                {#<ul data-vote-cast="none" class="comment-vote">
                                   <li><i data-vote="upvote" class="fi-arrow-up"></i></li>
                                   <li><span class="comment-score">{{rep.score}}</span></li>
                                   <li><i data-vote="downvote" class="fi-arrow-down"></i></li>
-                                </ul>
+                                </ul>#}
                                 <article class="comment-content">
                                   <h4 class="comment-meta"><a href="#">{{rep.author.username}}</a> on {{rep.timestamp}}</h4>
                                   <p class="comment-text">{{rep.body_html|safe}}</p>

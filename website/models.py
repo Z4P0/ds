@@ -240,8 +240,8 @@ class Comment(db.Model):
     article_id = db.Column(db.Integer, db.ForeignKey('articles.id'))
     score = db.Column(db.Integer, default=1)
     reply_to_id = db.Column(db.Integer, db.ForeignKey('comments.id'))
-    # reply_to = db.relation('Comment', remote_side=[id], order_by='desc(Comment.timestamp)', backref='replies')
-    reply_to = db.relation('Comment', remote_side=[id], backref='replies')
+    reply_to = db.relation('Comment', remote_side=[id], order_by='desc(Comment.timestamp)', backref='replies')
+    # reply_to = db.relation('Comment', remote_side=[id], backref='replies')
 
     @staticmethod
     def on_changed_body(target, value, oldvalue, initiator):
