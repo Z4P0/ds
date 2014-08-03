@@ -57,21 +57,19 @@ def read_article(slug):
         flash('Your comment has been posted!')
         return redirect(url_for('articles.read_article', slug=article.slug))
 
-    comments = article.comments.order_by(Comment.timestamp.desc()).limit(20)
+    comments = article.comments.filter_by(reply_to=None).order_by(Comment.timestamp.desc()).limit(20)
 
     reply_form = ReplyForm(prefix='reply')
     if reply_form.validate_on_submit() and reply_form.submit.data:
         flash('hey you posted a reply!')
-        flash(reply_form.comment_id.data)
-
         og_comment = Comment.query.filter_by(id=reply_form.comment_id.data).first()
-        # flash(og_comment)
-        flash(og_comment.body)
-        # comment = Comment(
-        #     body=reply_form.body.data,
-        #     author=current_user._get_current_object(),
-        #     article=
-        #     )
+        reply = Comment(
+            body=reply_form.body.data,
+            author=current_user._get_current_object(),
+            article=article,
+            reply_to=og_comment
+            )
+        db.session.add(reply)
         return redirect(url_for('articles.read_article', slug=article.slug))
     return render_template('articles/view.html', article=article,
         next_article=next_article, related_articles=related_articles,

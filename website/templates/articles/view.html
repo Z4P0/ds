@@ -109,11 +109,11 @@
         {% for comment in comments %}
         <li>
           <div data-score="{{comment.score}}" data-id="{{comment.id}}" class="comment">
-            <!-- <ul data-vote-cast="none" class="comment-vote">
+            <ul data-vote-cast="none" class="comment-vote">
               <li><i data-vote="upvote" class="fi-arrow-up"></i></li>
               <li><span class="comment-score">{{comment.score}}</span></li>
               <li><i data-vote="downvote" class="fi-arrow-down"></i></li>
-            </ul> -->
+            </ul>
             <article class="comment-content">
               <h4 class="comment-meta"><a href="#">{{comment.author.username}}</a> on {{comment.timestamp}}</h4>
               <div class="comment-text">{{comment.body_html|safe}}</div>
@@ -121,33 +121,58 @@
                 <li>reply</li>
                 <li>report</li>
               </ul>
-              {#% if comment.replies %}
+              {% if comment.replies %}
               <div class="replies">
                 <ul class="comment-replies">
                   {% for reply in comment.replies %}
                   <li>
-                    <div data-score="{{reply.score}}" class="comment">
+                    <div data-score="{{reply.score}}" data-id="{{reply.id}}" class="comment">
                       <ul data-vote-cast="none" class="comment-vote">
                         <li><i data-vote="upvote" class="fi-arrow-up"></i></li>
                         <li><span class="comment-score">{{reply.score}}</span></li>
                         <li><i data-vote="downvote" class="fi-arrow-down"></i></li>
                       </ul>
                       <article class="comment-content">
-                        <h4 class="comment-meta"><a href="#">{{reply.author}}</a> on {{reply.post_date}}</h4>
-                        <p class="comment-text">{{reply.content}}</p>
+                        <h4 class="comment-meta"><a href="#">{{reply.author.username}}</a> on {{reply.timestamp}}</h4>
+                        <p class="comment-text">{{reply.body_html|safe}}</p>
                         <ul class="inline comment-actions">
                           <li>reply</li>
                           <li>report</li>
                         </ul>
+                        {% if reply.replies %}
                         <div class="replies">
+                          <ul class="comment-replies">
+                            {% for rep in reply.replies %}
+                            <li>
+                              <div data-score="{{rep.score}}" data-id="{{rep.id}}" class="comment">
+                                <ul data-vote-cast="none" class="comment-vote">
+                                  <li><i data-vote="upvote" class="fi-arrow-up"></i></li>
+                                  <li><span class="comment-score">{{rep.score}}</span></li>
+                                  <li><i data-vote="downvote" class="fi-arrow-down"></i></li>
+                                </ul>
+                                <article class="comment-content">
+                                  <h4 class="comment-meta"><a href="#">{{rep.author.username}}</a> on {{rep.timestamp}}</h4>
+                                  <p class="comment-text">{{rep.body_html|safe}}</p>
+                                  <ul class="inline comment-actions">
+                                    <li>reply</li>
+                                    <li>report</li>
+                                  </ul>
+                                  <div class="replies">
+                                  </div>
+                                </article>
+                              </div>
+                            </li>
+                            {% endfor %}
+                          </ul>
                         </div>
+                        {% endif %}
                       </article>
                     </div>
                   </li>
                   {% endfor %}
                 </ul>
               </div>
-              {% endif %#}
+              {% endif %}
             </article>
           </div>
         </li>
