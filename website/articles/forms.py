@@ -19,6 +19,7 @@ class ArticleForm(Form):
 class CommentForm(Form):
     """ Make a comment on an article """
     body = TextAreaField(validators=[Required()])
+    # email = StringField('Email', validators=[Required(), Email(), Length(1, 64)])
     follow_replies = BooleanField('Follow Replies', validators=[Optional()])
     submit = SubmitField('Comment')
 

@@ -1,9 +1,9 @@
 from flask import render_template, redirect, url_for, flash
 from flask.ext.login import current_user, login_required
-from ..models import Permission, Article, Category, Tag, Topic
+from ..models import Permission, Article, Category, Tag, Topic, Comment
 from .. import db
 from . import articles
-from .forms import ArticleForm
+from .forms import ArticleForm, CommentForm
 
 
 
@@ -25,7 +25,7 @@ def articles_index():
 
 
 
-@articles.route('/<slug>')
+@articles.route('/<slug>', methods=['GET','POST'])
 def read_article(slug):
     article = Article.query.filter_by(slug=slug).first_or_404()
     # get the latest article
@@ -45,10 +45,26 @@ def read_article(slug):
     article_category = Category.query.filter_by(id=article.category_id).first()
     related_articles = article_category.posts.order_by(Article.post_date.desc()).limit(3)
 
+    # comment shit
+    comment_form = CommentForm()
+    if comment_form.validate_on_submit():
+        comment = Comment(
+            body=comment_form.body.data,
+            author=current_user._get_current_object(),
+            article=article
+            )
+        db.session.add(comment)
+        flash('Your comment has been posted!')
+        return redirect(url_for('articles.read_article', slug=article.slug))
+
+    # pagination = article.comments.order_by(Comment.timestamp.desc()).paginate(
+    #         page, per_page=20, error_out=False)
+    # comments = pagination.items
+    comments = article.comments.order_by(Comment.timestamp.desc()).limit(20)
+
     return render_template('articles/view.html', article=article,
-        next_article=next_article,
-        related_articles=related_articles,
-        comments=None)
+        next_article=next_article, related_articles=related_articles,
+        comments=comments)
 
 
 

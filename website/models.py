@@ -87,10 +87,10 @@ class User(UserMixin, db.Model):
     last_seen = db.Column(db.DateTime, default=datetime.utcnow)
     # profile_pic = db.Column(db.String(256))
     gravatar_hash = db.Column(db.String(64))
-    # comments
     # following
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
     posts = db.relationship('Article', backref='author', lazy='dynamic')
+    comments = db.relationship('Comment', backref='author', lazy='dynamic')
 
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
@@ -199,7 +199,7 @@ class Article(db.Model):
     last_update = db.Column(db.DateTime, nullable=True)
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     # tags - an article can have many tags
-    # comments - an article can have many comments
+    comments = db.relationship('Comment', backref='article', lazy='dynamic')
 
     @staticmethod
     def on_changed_content(target, value, oldvalue, initiator):
@@ -224,6 +224,37 @@ class Article(db.Model):
 
 db.event.listen(Article.content, 'set', Article.on_changed_content)
 db.event.listen(Article.preview, 'set', Article.on_changed_preview)
+
+
+class Comment(db.Model):
+    """ Article comments """
+    __tablename__ = 'comments'
+    id = db.Column(db.Integer, primary_key=True)
+    body = db.Column(db.Text())
+    body_html = db.Column(db.Text())
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+    edited = db.Column(db.Boolean)
+    edit_timestamp = db.Column(db.DateTime, nullable=True)
+    enabled = db.Column(db.Boolean, default=True)
+    author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    article_id = db.Column(db.Integer, db.ForeignKey('articles.id'))
+
+    @staticmethod
+    def on_changed_body(target, value, oldvalue, initiator):
+        allowed_tags = ['a', 'abbr', 'acronym', 'b', 'blockquote',
+                        'em', 'i', 'li', 'ol', 'strong', 'ul',
+                        'h1', 'h2', 'p']
+        target.body_html = bleach.linkify(bleach.clean(
+            markdown(value, output_format='html'),
+            tags=allowed_tags, strip=True))
+        target.edited = True
+        edit_timestamp = datetime.utcnow()
+
+    def __repr__(self):
+        return '<Comment %r>' % self.body
+
+db.event.listen(Comment.body, 'set', Comment.on_changed_body)
+
 
 
 class Topic(db.Model):
