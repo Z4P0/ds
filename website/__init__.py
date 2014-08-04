@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template
+from flask import Flask, render_template, g
 from flask.ext.mail import Mail
 from flask.ext.moment import Moment
 from flask.ext.sqlalchemy import SQLAlchemy
@@ -57,6 +57,7 @@ def create_app(config_name):
     app.register_blueprint(managers_blueprint, url_prefix='/managers')
 
 
+
     from .models import User, Article, Topic, Category, Tag, Cup, League, Team, Player, Manager, Association, Country
 
     whooshalchemy.whoosh_index(app, User)
@@ -71,5 +72,12 @@ def create_app(config_name):
     whooshalchemy.whoosh_index(app, Manager)
     whooshalchemy.whoosh_index(app, Association)
     whooshalchemy.whoosh_index(app, Country)
+
+
+
+    from .main.forms import SearchForm
+    @app.before_request
+    def before_request():
+        g.search_form = SearchForm()
 
     return app

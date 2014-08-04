@@ -61,7 +61,7 @@
     <h3 class="t7">Next post</h3>
     <article class="article-post">
       <h4 class="article-title"><a href="{{ url_for('articles.read_article', slug=next_article.slug) }}">{{next_article.title}}</a></h4>
-      <p class="lead-in">{{next_article.preview}}</p>
+      <div class="lead-in">{{next_article.preview_html|safe}}</div>
       <a href="{{ url_for('articles.read_article', slug=next_article.slug) }}" class="read-article">Read more</a>
     </article>
   </section>

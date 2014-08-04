@@ -1,13 +1,13 @@
 import os
 from datetime import datetime
-from flask import render_template, session, redirect, url_for, current_app, flash, request, send_from_directory
+from flask import render_template, session, redirect, url_for, current_app, flash, request, send_from_directory, g
 from flask.ext.login import login_required, current_user
 from werkzeug.utils import secure_filename
 from .. import db
 from ..models import User, Article
 from ..email import send_email
 from . import main
-from .forms import ProfileForm, UploadForm
+from .forms import ProfileForm, UploadForm, SearchForm
 
 
 def allowed_file(filename):
@@ -66,14 +66,25 @@ def privacy_policy():
 
 
 # settings
-@main.route('/settings/')
+@main.route('/settings')
 def change_settings():
     return 'cahnge site settings for user'
 
 # search
-@main.route('/search/')
-def search_ds():
-    return 'Search'
+@main.route('/search', methods=['GET', 'POST'])
+def search():
+    query = None
+    search_results = None
+    search_form = SearchForm()
+    if search_form.validate_on_submit():
+        query = search_form.text.data
+        search_results = Article.query.whoosh_search(query, current_app.config['MAX_SEARCH_RESULTS']).all()
+    if g.search_form.validate_on_submit():
+        query = g.search_form.text.data
+        search_results = Article.query.whoosh_search(query, current_app.config['MAX_SEARCH_RESULTS']).all()
+    return render_template('ds/search.html',
+        search_form=search_form,
+        query=query, search_results=search_results)
 
 
 

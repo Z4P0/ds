@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Search | {% endblock %}
+{% block description %}{{description}}{% endblock %}
+{% block page_id %}{{page_id}}{% endblock %}
+{% block data_page %}{{data_page}}{% endblock %}
+
+
+{% block content %}
+<div class="wrapper">
+  <form method="post">
+    {{ search_form.hidden_tag() }}
+    <label>
+      <span>Search</span><br/>
+      {{ search_form.text }}
+    </label>
+  </form>
+  {% if query %}
+    <h2>Search results for: "{{ query }}"</h2>
+  {% endif %}
+  {% if search_results %}
+  <ul class="search-results">
+    {% for result in search_results %}
+    <li>
+      <article class="article-preview">
+        <h2 class="article-title"><a href="{{ url_for('articles.read_article', slug=result.slug) }}">{{ result.title }}</a></h2>
+        <span class="article-meta">Posted in <a href="{{ url_for('articles.view_category', slug=result.category.slug) }}" class="article-category">{{result.category.name}}</a><span class="posted-on">{{ result.post_date }}</span></span>
+        {{ result.preview_html|safe }}
+        <p><a href="{{ url_for('articles.read_article', slug=result.slug) }}" class="read-more">Read more</a></p>
+      </article>
+      </li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+</div>
+{% endblock %}

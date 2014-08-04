@@ -50,7 +50,7 @@ ds.nav = (function() {
     // set up form
     $form = $search_li.find('#search-form');
     $form.toggleClass('hidden'); // hide it
-    
+
 
     // search form toggles
     // ----------------------------
@@ -63,23 +63,23 @@ ds.nav = (function() {
     // search form results div
     // ----------------------------
     $search_results = $search_li.find('#search-results');
-    // $search_results.toggleClass('hidden');
+    $search_results.toggleClass('hidden');
 
 
-    $search_field.on('keyup', function(e) {
-      // $search_results.toggleClass('hidden');
-      if (e.keyCode === 27 ) toggleSearch();
-      $.ajax({
-        type: 'POST',
-        url: '/search/',
-        data: {
-          'search_text': $search_field.val(),
-          'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
-        },
-        success: showResults,
-        dataType: 'html'
-      });
-    });
+    // $search_field.on('keyup', function(e) {
+    //   // $search_results.toggleClass('hidden');
+    //   if (e.keyCode === 27 ) toggleSearch();
+    //   $.ajax({
+    //     type: 'POST',
+    //     url: '/search/',
+    //     data: {
+    //       'search_text': $search_field.val(),
+    //       'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
+    //     },
+    //     success: showResults,
+    //     dataType: 'html'
+    //   });
+    // });
 
   };
 
@@ -89,7 +89,7 @@ ds.nav = (function() {
 
     // hide search form if it was left open
     if ($search_toggle.hasClass('hidden')) {
-      toggleSearch(); 
+      toggleSearch();
     }
   }
 
