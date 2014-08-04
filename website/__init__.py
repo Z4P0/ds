@@ -7,6 +7,7 @@ from flask_wtf.csrf import CsrfProtect
 from flask.ext.login import LoginManager
 from flask.ext.pagedown import PageDown
 from config import config
+import flask.ext.whooshalchemy as whooshalchemy
 
 
 pagedown = PageDown()
@@ -54,5 +55,21 @@ def create_app(config_name):
     app.register_blueprint(teams_blueprint, url_prefix='/teams')
     app.register_blueprint(players_blueprint, url_prefix='/players')
     app.register_blueprint(managers_blueprint, url_prefix='/managers')
+
+
+    from .models import User, Article, Topic, Category, Tag, Cup, League, Team, Player, Manager, Association, Country
+
+    whooshalchemy.whoosh_index(app, User)
+    whooshalchemy.whoosh_index(app, Article)
+    whooshalchemy.whoosh_index(app, Topic)
+    whooshalchemy.whoosh_index(app, Category)
+    whooshalchemy.whoosh_index(app, Tag)
+    whooshalchemy.whoosh_index(app, Cup)
+    whooshalchemy.whoosh_index(app, League)
+    whooshalchemy.whoosh_index(app, Team)
+    whooshalchemy.whoosh_index(app, Player)
+    whooshalchemy.whoosh_index(app, Manager)
+    whooshalchemy.whoosh_index(app, Association)
+    whooshalchemy.whoosh_index(app, Country)
 
     return app

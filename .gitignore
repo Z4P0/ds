@@ -2,3 +2,4 @@ notes.txt
 *.pyc
 logs/
 website/static/media
+search/

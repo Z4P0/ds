@@ -8,6 +8,9 @@ from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from markdown import markdown
 import bleach
 
+
+
+
 class Permission:
     """ Various permissions for site users """
     FOLLOW = 0x01
@@ -73,6 +76,7 @@ class Role(db.Model):
 class User(UserMixin, db.Model):
     """ User information """
     __tablename__ = 'users'
+    __searchable__ = ['username', 'twitter', 'instagram']
     id = db.Column(db.Integer, primary_key=True)
     confirmed = db.Column(db.Boolean, default=False)
     email = db.Column(db.String(128), unique=True, index=True)
@@ -186,6 +190,7 @@ def load_user(user_id):
 class Article(db.Model):
     """ Articles """
     __tablename__ = 'articles'
+    __searchable__ = ['title', 'content', 'content_html', 'preview', 'preview_html']
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(256))
     slug = db.Column(db.String(256), unique=True)
@@ -264,6 +269,7 @@ db.event.listen(Comment.body, 'set', Comment.on_changed_body)
 class Topic(db.Model):
     """ Site Topics """
     __tablename__ = 'topics'
+    __searchable__ = ['name']
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(128), unique=True)
     slug = db.Column(db.String(128), unique=True)
@@ -297,6 +303,7 @@ class Topic(db.Model):
 class Category(db.Model):
     """ Articles categories """
     __tablename__ = 'categories'
+    __searchable__ = ['name']
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(128), unique=True)
     slug = db.Column(db.String(128), unique=True)
@@ -349,6 +356,7 @@ class Category(db.Model):
 class Tag(db.Model):
     """ Articles tags """
     __tablename__ = 'tags'
+    __searchable__ = ['name']
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), unique=True)
     slug = db.Column(db.String(64), unique=True)
@@ -366,6 +374,7 @@ class Tag(db.Model):
 class Cup(db.Model):
     """ Cup tournaments """
     __tablename__ = 'cups'
+    __searchable__ = ['name', 'abbreviation', 'overview']
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), unique=True)
     abbreviation = db.Column(db.String(16), unique=True, nullable=True)
@@ -384,6 +393,7 @@ class Cup(db.Model):
 class League(db.Model):
     """ Leagues in the CONCACAF """
     __tablename__ = 'leagues'
+    __searchable__ = ['name', 'abbreviation']
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), unique=True)
     abbreviation = db.Column(db.String(16), unique=True, nullable=True)
@@ -399,6 +409,7 @@ class League(db.Model):
 class Team(db.Model):
     """ Teams that play in the CONCACAF """
     __tablename__ = 'teams'
+    __searchable__ = ['name', 'abbreviation', 'nickname']
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), unique=True)
     abbreviation = db.Column(db.String(16), unique=True, nullable=True)
@@ -417,6 +428,7 @@ class Team(db.Model):
 class Player(db.Model):
     """ players """
     __tablename__ = 'players'
+    __searchable__ = ['common_name', 'fullname', 'bio']
     id = db.Column(db.Integer, primary_key=True)
     common_name = db.Column(db.String(64))
     fullname = db.Column(db.String(64))
@@ -434,6 +446,7 @@ class Player(db.Model):
 class Manager(db.Model):
     """ Managers in the CONCACAF """
     __tablename__ = 'managers'
+    __searchable__ = ['name']
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64))
     slug = db.Column(db.String(64), unique=True)
@@ -448,6 +461,7 @@ class Manager(db.Model):
 class Association(db.Model):
     """ Associations in the CONCACAF """
     __tablename__ = 'associations'
+    __searchable__ = ['name']
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64))
     slug = db.Column(db.String(64), unique=True)
@@ -462,6 +476,7 @@ class Association(db.Model):
 class Country(db.Model):
     """ A Country - a footballing nation """
     __tablename__ = 'countries'
+    __searchable__ = ['name']
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), unique=True)
     slug = db.Column(db.String(64), unique=True)
@@ -471,3 +486,4 @@ class Country(db.Model):
 
     def __repr__(self):
         return '<Country %r>' % self.name
+

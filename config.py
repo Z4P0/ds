@@ -29,17 +29,23 @@ class DevelopmentConfig(Config):
     """ development configuration """
     DEBUG =True
     SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or 'sqlite:////'+os.path.join(basedir, 'data-dev.sqlite')
+    WHOOSH_BASE = os.path.join(basedir, 'search/search-dev.db')
+    # WHOOSH_BASE = os.environ.get('DEV_WHOOSH_URL') or 'sqlite:////'+os.path.join(basedir, 'search-dev.sqlite')
 
 
 class TestingConfig(Config):
     """ testing configuration """
     TESTING = True
     SQLALCHEMY_DATABASE_URI = os.environ.get('TEST_DATABASE_URL') or 'sqlite:////'+os.path.join(basedir, 'data-testing.sqlite')
+    WHOOSH_BASE = os.path.join(basedir, 'search/search-test.db')
+    # WHOOSH_BASE = os.environ.get('TEST_WHOOSH_URL') or 'sqlite:////'+os.path.join(basedir, 'search-testing.sqlite')
 
 
 class ProductionConfig(Config):
     """ production configuration """
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'sqlite:////'+os.path.join(basedir, 'data.sqlite')
+    WHOOSH_BASE = os.path.join(basedir, 'search/search.db')
+    # WHOOSH_BASE = os.environ.get('WHOOSH_URL') or 'sqlite:////'+os.path.join(basedir, 'search.sqlite')
 
 
 config = {
