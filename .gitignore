@@ -3,3 +3,5 @@ notes.txt
 logs/
 website/static/media
 search/
+migrations/
+*.sqlite
